@@ -21,9 +21,9 @@ type Mutation {
   createDay(rating: Int, description: String!, taskForTomorrow: String): Day
   updateDay(
     id: ID!
-    rating: Int
-    description: String
-    taskForTomorrow: String
+    rating: Int!
+    description: String!
+    taskForTomorrow: String!
   ): Day
 }
 
@@ -45,10 +45,9 @@ type Day {
   id: ID!
   date: DateTime!
   user: User!
-  sessions: [Session!]!
-  rating: Int
-  description: String
-  taskForTomorrow: String
+  rating: Int!
+  description: String!
+  taskForTomorrow: String!
 }
 
 type Category {
