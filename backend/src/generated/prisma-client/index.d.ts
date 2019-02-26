@@ -245,16 +245,14 @@ export type CategoryOrderByInput =
 export type DayOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "date_ASC"
-  | "date_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
   | "rating_ASC"
   | "rating_DESC"
   | "description_ASC"
   | "description_DESC"
   | "taskForTomorrow_ASC"
   | "taskForTomorrow_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
@@ -318,6 +316,9 @@ export interface CategoryWhereInput {
   name_ends_with?: String;
   name_not_ends_with?: String;
   user?: UserWhereInput;
+  sessions_every?: SessionWhereInput;
+  sessions_some?: SessionWhereInput;
+  sessions_none?: SessionWhereInput;
   AND?: CategoryWhereInput[] | CategoryWhereInput;
   OR?: CategoryWhereInput[] | CategoryWhereInput;
   NOT?: CategoryWhereInput[] | CategoryWhereInput;
@@ -406,18 +407,15 @@ export interface DayWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  date?: DateTimeInput;
-  date_not?: DateTimeInput;
-  date_in?: DateTimeInput[] | DateTimeInput;
-  date_not_in?: DateTimeInput[] | DateTimeInput;
-  date_lt?: DateTimeInput;
-  date_lte?: DateTimeInput;
-  date_gt?: DateTimeInput;
-  date_gte?: DateTimeInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
   user?: UserWhereInput;
-  sessions_every?: SessionWhereInput;
-  sessions_some?: SessionWhereInput;
-  sessions_none?: SessionWhereInput;
   rating?: Int;
   rating_not?: Int;
   rating_in?: Int[] | Int;
@@ -513,6 +511,7 @@ export type UserWhereUniqueInput = AtLeastOne<{
 export interface CategoryCreateInput {
   name: String;
   user: UserCreateOneWithoutCategoriesInput;
+  sessions?: SessionCreateManyWithoutCategoryInput;
 }
 
 export interface UserCreateOneWithoutCategoriesInput {
@@ -533,27 +532,21 @@ export interface DayCreateManyWithoutUserInput {
 }
 
 export interface DayCreateWithoutUserInput {
-  date: DateTimeInput;
-  sessions?: SessionCreateManyInput;
-  rating?: Int;
-  description?: String;
-  taskForTomorrow?: String;
+  rating: Int;
+  description: String;
+  taskForTomorrow: String;
 }
 
-export interface SessionCreateManyInput {
-  create?: SessionCreateInput[] | SessionCreateInput;
+export interface SessionCreateManyWithoutCategoryInput {
+  create?:
+    | SessionCreateWithoutCategoryInput[]
+    | SessionCreateWithoutCategoryInput;
   connect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
 }
 
-export interface SessionCreateInput {
-  category: CategoryCreateOneInput;
+export interface SessionCreateWithoutCategoryInput {
   length: Int;
   user: UserCreateOneInput;
-}
-
-export interface CategoryCreateOneInput {
-  create?: CategoryCreateInput;
-  connect?: CategoryWhereUniqueInput;
 }
 
 export interface UserCreateOneInput {
@@ -576,11 +569,13 @@ export interface CategoryCreateManyWithoutUserInput {
 
 export interface CategoryCreateWithoutUserInput {
   name: String;
+  sessions?: SessionCreateManyWithoutCategoryInput;
 }
 
 export interface CategoryUpdateInput {
   name?: String;
   user?: UserUpdateOneRequiredWithoutCategoriesInput;
+  sessions?: SessionUpdateManyWithoutCategoryInput;
 }
 
 export interface UserUpdateOneRequiredWithoutCategoriesInput {
@@ -621,57 +616,125 @@ export interface DayUpdateWithWhereUniqueWithoutUserInput {
 }
 
 export interface DayUpdateWithoutUserDataInput {
-  date?: DateTimeInput;
-  sessions?: SessionUpdateManyInput;
   rating?: Int;
   description?: String;
   taskForTomorrow?: String;
 }
 
-export interface SessionUpdateManyInput {
-  create?: SessionCreateInput[] | SessionCreateInput;
-  update?:
-    | SessionUpdateWithWhereUniqueNestedInput[]
-    | SessionUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | SessionUpsertWithWhereUniqueNestedInput[]
-    | SessionUpsertWithWhereUniqueNestedInput;
+export interface DayUpsertWithWhereUniqueWithoutUserInput {
+  where: DayWhereUniqueInput;
+  update: DayUpdateWithoutUserDataInput;
+  create: DayCreateWithoutUserInput;
+}
+
+export interface DayScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  rating?: Int;
+  rating_not?: Int;
+  rating_in?: Int[] | Int;
+  rating_not_in?: Int[] | Int;
+  rating_lt?: Int;
+  rating_lte?: Int;
+  rating_gt?: Int;
+  rating_gte?: Int;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  taskForTomorrow?: String;
+  taskForTomorrow_not?: String;
+  taskForTomorrow_in?: String[] | String;
+  taskForTomorrow_not_in?: String[] | String;
+  taskForTomorrow_lt?: String;
+  taskForTomorrow_lte?: String;
+  taskForTomorrow_gt?: String;
+  taskForTomorrow_gte?: String;
+  taskForTomorrow_contains?: String;
+  taskForTomorrow_not_contains?: String;
+  taskForTomorrow_starts_with?: String;
+  taskForTomorrow_not_starts_with?: String;
+  taskForTomorrow_ends_with?: String;
+  taskForTomorrow_not_ends_with?: String;
+  AND?: DayScalarWhereInput[] | DayScalarWhereInput;
+  OR?: DayScalarWhereInput[] | DayScalarWhereInput;
+  NOT?: DayScalarWhereInput[] | DayScalarWhereInput;
+}
+
+export interface DayUpdateManyWithWhereNestedInput {
+  where: DayScalarWhereInput;
+  data: DayUpdateManyDataInput;
+}
+
+export interface DayUpdateManyDataInput {
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface UserUpsertWithoutCategoriesInput {
+  update: UserUpdateWithoutCategoriesDataInput;
+  create: UserCreateWithoutCategoriesInput;
+}
+
+export interface SessionUpdateManyWithoutCategoryInput {
+  create?:
+    | SessionCreateWithoutCategoryInput[]
+    | SessionCreateWithoutCategoryInput;
   delete?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
   connect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
   set?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
   disconnect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  update?:
+    | SessionUpdateWithWhereUniqueWithoutCategoryInput[]
+    | SessionUpdateWithWhereUniqueWithoutCategoryInput;
+  upsert?:
+    | SessionUpsertWithWhereUniqueWithoutCategoryInput[]
+    | SessionUpsertWithWhereUniqueWithoutCategoryInput;
   deleteMany?: SessionScalarWhereInput[] | SessionScalarWhereInput;
   updateMany?:
     | SessionUpdateManyWithWhereNestedInput[]
     | SessionUpdateManyWithWhereNestedInput;
 }
 
-export interface SessionUpdateWithWhereUniqueNestedInput {
+export interface SessionUpdateWithWhereUniqueWithoutCategoryInput {
   where: SessionWhereUniqueInput;
-  data: SessionUpdateDataInput;
+  data: SessionUpdateWithoutCategoryDataInput;
 }
 
-export interface SessionUpdateDataInput {
-  category?: CategoryUpdateOneRequiredInput;
+export interface SessionUpdateWithoutCategoryDataInput {
   length?: Int;
   user?: UserUpdateOneRequiredInput;
-}
-
-export interface CategoryUpdateOneRequiredInput {
-  create?: CategoryCreateInput;
-  update?: CategoryUpdateDataInput;
-  upsert?: CategoryUpsertNestedInput;
-  connect?: CategoryWhereUniqueInput;
-}
-
-export interface CategoryUpdateDataInput {
-  name?: String;
-  user?: UserUpdateOneRequiredWithoutCategoriesInput;
-}
-
-export interface CategoryUpsertNestedInput {
-  update: CategoryUpdateDataInput;
-  create: CategoryCreateInput;
 }
 
 export interface UserUpdateOneRequiredInput {
@@ -714,6 +777,7 @@ export interface CategoryUpdateWithWhereUniqueWithoutUserInput {
 
 export interface CategoryUpdateWithoutUserDataInput {
   name?: String;
+  sessions?: SessionUpdateManyWithoutCategoryInput;
 }
 
 export interface CategoryUpsertWithWhereUniqueWithoutUserInput {
@@ -770,10 +834,10 @@ export interface UserUpsertNestedInput {
   create: UserCreateInput;
 }
 
-export interface SessionUpsertWithWhereUniqueNestedInput {
+export interface SessionUpsertWithWhereUniqueWithoutCategoryInput {
   where: SessionWhereUniqueInput;
-  update: SessionUpdateDataInput;
-  create: SessionCreateInput;
+  update: SessionUpdateWithoutCategoryDataInput;
+  create: SessionCreateWithoutCategoryInput;
 }
 
 export interface SessionScalarWhereInput {
@@ -821,104 +885,15 @@ export interface SessionUpdateManyDataInput {
   length?: Int;
 }
 
-export interface DayUpsertWithWhereUniqueWithoutUserInput {
-  where: DayWhereUniqueInput;
-  update: DayUpdateWithoutUserDataInput;
-  create: DayCreateWithoutUserInput;
-}
-
-export interface DayScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  date?: DateTimeInput;
-  date_not?: DateTimeInput;
-  date_in?: DateTimeInput[] | DateTimeInput;
-  date_not_in?: DateTimeInput[] | DateTimeInput;
-  date_lt?: DateTimeInput;
-  date_lte?: DateTimeInput;
-  date_gt?: DateTimeInput;
-  date_gte?: DateTimeInput;
-  rating?: Int;
-  rating_not?: Int;
-  rating_in?: Int[] | Int;
-  rating_not_in?: Int[] | Int;
-  rating_lt?: Int;
-  rating_lte?: Int;
-  rating_gt?: Int;
-  rating_gte?: Int;
-  description?: String;
-  description_not?: String;
-  description_in?: String[] | String;
-  description_not_in?: String[] | String;
-  description_lt?: String;
-  description_lte?: String;
-  description_gt?: String;
-  description_gte?: String;
-  description_contains?: String;
-  description_not_contains?: String;
-  description_starts_with?: String;
-  description_not_starts_with?: String;
-  description_ends_with?: String;
-  description_not_ends_with?: String;
-  taskForTomorrow?: String;
-  taskForTomorrow_not?: String;
-  taskForTomorrow_in?: String[] | String;
-  taskForTomorrow_not_in?: String[] | String;
-  taskForTomorrow_lt?: String;
-  taskForTomorrow_lte?: String;
-  taskForTomorrow_gt?: String;
-  taskForTomorrow_gte?: String;
-  taskForTomorrow_contains?: String;
-  taskForTomorrow_not_contains?: String;
-  taskForTomorrow_starts_with?: String;
-  taskForTomorrow_not_starts_with?: String;
-  taskForTomorrow_ends_with?: String;
-  taskForTomorrow_not_ends_with?: String;
-  AND?: DayScalarWhereInput[] | DayScalarWhereInput;
-  OR?: DayScalarWhereInput[] | DayScalarWhereInput;
-  NOT?: DayScalarWhereInput[] | DayScalarWhereInput;
-}
-
-export interface DayUpdateManyWithWhereNestedInput {
-  where: DayScalarWhereInput;
-  data: DayUpdateManyDataInput;
-}
-
-export interface DayUpdateManyDataInput {
-  date?: DateTimeInput;
-  rating?: Int;
-  description?: String;
-  taskForTomorrow?: String;
-}
-
-export interface UserUpsertWithoutCategoriesInput {
-  update: UserUpdateWithoutCategoriesDataInput;
-  create: UserCreateWithoutCategoriesInput;
-}
-
 export interface CategoryUpdateManyMutationInput {
   name?: String;
 }
 
 export interface DayCreateInput {
-  date: DateTimeInput;
   user: UserCreateOneWithoutDaysInput;
-  sessions?: SessionCreateManyInput;
-  rating?: Int;
-  description?: String;
-  taskForTomorrow?: String;
+  rating: Int;
+  description: String;
+  taskForTomorrow: String;
 }
 
 export interface UserCreateOneWithoutDaysInput {
@@ -934,9 +909,7 @@ export interface UserCreateWithoutDaysInput {
 }
 
 export interface DayUpdateInput {
-  date?: DateTimeInput;
   user?: UserUpdateOneRequiredWithoutDaysInput;
-  sessions?: SessionUpdateManyInput;
   rating?: Int;
   description?: String;
   taskForTomorrow?: String;
@@ -962,16 +935,48 @@ export interface UserUpsertWithoutDaysInput {
 }
 
 export interface DayUpdateManyMutationInput {
-  date?: DateTimeInput;
   rating?: Int;
   description?: String;
   taskForTomorrow?: String;
 }
 
+export interface SessionCreateInput {
+  category: CategoryCreateOneWithoutSessionsInput;
+  length: Int;
+  user: UserCreateOneInput;
+}
+
+export interface CategoryCreateOneWithoutSessionsInput {
+  create?: CategoryCreateWithoutSessionsInput;
+  connect?: CategoryWhereUniqueInput;
+}
+
+export interface CategoryCreateWithoutSessionsInput {
+  name: String;
+  user: UserCreateOneWithoutCategoriesInput;
+}
+
 export interface SessionUpdateInput {
-  category?: CategoryUpdateOneRequiredInput;
+  category?: CategoryUpdateOneRequiredWithoutSessionsInput;
   length?: Int;
   user?: UserUpdateOneRequiredInput;
+}
+
+export interface CategoryUpdateOneRequiredWithoutSessionsInput {
+  create?: CategoryCreateWithoutSessionsInput;
+  update?: CategoryUpdateWithoutSessionsDataInput;
+  upsert?: CategoryUpsertWithoutSessionsInput;
+  connect?: CategoryWhereUniqueInput;
+}
+
+export interface CategoryUpdateWithoutSessionsDataInput {
+  name?: String;
+  user?: UserUpdateOneRequiredWithoutCategoriesInput;
+}
+
+export interface CategoryUpsertWithoutSessionsInput {
+  update: CategoryUpdateWithoutSessionsDataInput;
+  create: CategoryCreateWithoutSessionsInput;
 }
 
 export interface SessionUpdateManyMutationInput {
@@ -1049,6 +1054,17 @@ export interface CategoryPromise extends Promise<Category>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   user: <T = UserPromise>() => T;
+  sessions: <T = FragmentableArray<Session>>(
+    args?: {
+      where?: SessionWhereInput;
+      orderBy?: SessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface CategorySubscription
@@ -1057,6 +1073,17 @@ export interface CategorySubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
+  sessions: <T = Promise<AsyncIterator<SessionSubscription>>>(
+    args?: {
+      where?: SessionWhereInput;
+      orderBy?: SessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface User {
@@ -1128,27 +1155,16 @@ export interface UserSubscription
 
 export interface Day {
   id: ID_Output;
-  date: DateTimeOutput;
-  rating?: Int;
-  description?: String;
-  taskForTomorrow?: String;
+  createdAt: DateTimeOutput;
+  rating: Int;
+  description: String;
+  taskForTomorrow: String;
 }
 
 export interface DayPromise extends Promise<Day>, Fragmentable {
   id: () => Promise<ID_Output>;
-  date: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
   user: <T = UserPromise>() => T;
-  sessions: <T = FragmentableArray<Session>>(
-    args?: {
-      where?: SessionWhereInput;
-      orderBy?: SessionOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
   rating: () => Promise<Int>;
   description: () => Promise<String>;
   taskForTomorrow: () => Promise<String>;
@@ -1158,19 +1174,8 @@ export interface DaySubscription
   extends Promise<AsyncIterator<Day>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   user: <T = UserSubscription>() => T;
-  sessions: <T = Promise<AsyncIterator<SessionSubscription>>>(
-    args?: {
-      where?: SessionWhereInput;
-      orderBy?: SessionOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
   rating: () => Promise<AsyncIterator<Int>>;
   description: () => Promise<AsyncIterator<String>>;
   taskForTomorrow: () => Promise<AsyncIterator<String>>;
@@ -1528,17 +1533,17 @@ export interface DaySubscriptionPayloadSubscription
 
 export interface DayPreviousValues {
   id: ID_Output;
-  date: DateTimeOutput;
-  rating?: Int;
-  description?: String;
-  taskForTomorrow?: String;
+  createdAt: DateTimeOutput;
+  rating: Int;
+  description: String;
+  taskForTomorrow: String;
 }
 
 export interface DayPreviousValuesPromise
   extends Promise<DayPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  date: () => Promise<DateTimeOutput>;
+  createdAt: () => Promise<DateTimeOutput>;
   rating: () => Promise<Int>;
   description: () => Promise<String>;
   taskForTomorrow: () => Promise<String>;
@@ -1548,7 +1553,7 @@ export interface DayPreviousValuesSubscription
   extends Promise<AsyncIterator<DayPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   rating: () => Promise<AsyncIterator<Int>>;
   description: () => Promise<AsyncIterator<String>>;
   taskForTomorrow: () => Promise<AsyncIterator<String>>;

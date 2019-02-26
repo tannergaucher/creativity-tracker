@@ -78,6 +78,58 @@ const Mutation = {
     //delete category with given id
     return context.prisma.deleteCategory({ id })
   },
+  createSession: async (parent, { length, categoryId }, context) => {
+    //get userId
+    const userId = getUserId(context)
+
+    if (!userId) {
+      return null
+    }
+    // create a session with given length
+    // connect to gategory of given categoryId
+    // connect to user of given userId
+    return context.prisma.createSession({
+      length,
+      category: { connect: { id: categoryId } },
+      user: { connect: { id: userId } },
+    })
+  },
+  createDay: async (
+    parent,
+    { rating, description, taskForTomorrow },
+    context
+  ) => {
+    // get userId
+    const userId = getUserId(context)
+
+    if (!userId) {
+      return null
+    }
+    return context.prisma.createDay({
+      // create a day with given inputs; rating, description, taskForTomorrow
+      rating,
+      description,
+      taskForTomorrow,
+      //contect to a user
+      user: { connect: { id: userId } },
+    })
+  },
+  updateDay: async (
+    parent,
+    { id, rating, description, taskForTomorrow },
+    context
+  ) => {
+    const userId = getUserId(context)
+
+    if (!userId) {
+      return null
+    }
+
+    return context.prisma.updateDay({
+      where: { id },
+      data: { rating, description, taskForTomorrow },
+    })
+  },
 }
 
 module.exports = {

@@ -11,6 +11,7 @@ type Category {
   id: ID! @unique
   name: String!
   user: User! #relation Category to User
+  sessions: [Session!]!
 }
 
 type Session {
@@ -23,10 +24,9 @@ type Session {
 
 type Day {
   id: ID! @unique
-  date: DateTime!
+  createdAt: DateTime!
   user: User!
-  sessions: [Session!]! #relation Day to Session
-  rating: Int
-  description: String
-  taskForTomorrow: String
+  rating: Int!
+  description: String!
+  taskForTomorrow: String!
 }

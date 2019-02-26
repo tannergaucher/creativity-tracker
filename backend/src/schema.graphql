@@ -17,19 +17,13 @@ type Mutation {
   createCategory(name: String!): Category!
   updateCategory(id: ID!, name: String!): Category!
   deleteCategory(id: ID!): Category!
-  # createSession(length: Int, category: Category!): Session!
-  createDay(
-    rating: Int
-    description: String!
-    taskForTomorrow: String
-    date: DateTime!
-  ): Day
+  createSession(length: Int, categoryId: ID!): Session!
+  createDay(rating: Int, description: String!, taskForTomorrow: String): Day
   updateDay(
     id: ID!
     rating: Int
     description: String
     taskForTomorrow: String
-    date: DateTime!
   ): Day
 }
 
@@ -61,6 +55,7 @@ type Category {
   id: ID!
   name: String!
   user: User!
+  sessions: [Session!]!
 }
 
 type Session {

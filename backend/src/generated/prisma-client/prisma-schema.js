@@ -27,6 +27,7 @@ type Category {
   id: ID!
   name: String!
   user: User!
+  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session!]
 }
 
 type CategoryConnection {
@@ -38,6 +39,7 @@ type CategoryConnection {
 input CategoryCreateInput {
   name: String!
   user: UserCreateOneWithoutCategoriesInput!
+  sessions: SessionCreateManyWithoutCategoryInput
 }
 
 input CategoryCreateManyWithoutUserInput {
@@ -45,13 +47,19 @@ input CategoryCreateManyWithoutUserInput {
   connect: [CategoryWhereUniqueInput!]
 }
 
-input CategoryCreateOneInput {
-  create: CategoryCreateInput
+input CategoryCreateOneWithoutSessionsInput {
+  create: CategoryCreateWithoutSessionsInput
   connect: CategoryWhereUniqueInput
+}
+
+input CategoryCreateWithoutSessionsInput {
+  name: String!
+  user: UserCreateOneWithoutCategoriesInput!
 }
 
 input CategoryCreateWithoutUserInput {
   name: String!
+  sessions: SessionCreateManyWithoutCategoryInput
 }
 
 type CategoryEdge {
@@ -127,14 +135,10 @@ input CategorySubscriptionWhereInput {
   NOT: [CategorySubscriptionWhereInput!]
 }
 
-input CategoryUpdateDataInput {
-  name: String
-  user: UserUpdateOneRequiredWithoutCategoriesInput
-}
-
 input CategoryUpdateInput {
   name: String
   user: UserUpdateOneRequiredWithoutCategoriesInput
+  sessions: SessionUpdateManyWithoutCategoryInput
 }
 
 input CategoryUpdateManyDataInput {
@@ -162,15 +166,21 @@ input CategoryUpdateManyWithWhereNestedInput {
   data: CategoryUpdateManyDataInput!
 }
 
-input CategoryUpdateOneRequiredInput {
-  create: CategoryCreateInput
-  update: CategoryUpdateDataInput
-  upsert: CategoryUpsertNestedInput
+input CategoryUpdateOneRequiredWithoutSessionsInput {
+  create: CategoryCreateWithoutSessionsInput
+  update: CategoryUpdateWithoutSessionsDataInput
+  upsert: CategoryUpsertWithoutSessionsInput
   connect: CategoryWhereUniqueInput
+}
+
+input CategoryUpdateWithoutSessionsDataInput {
+  name: String
+  user: UserUpdateOneRequiredWithoutCategoriesInput
 }
 
 input CategoryUpdateWithoutUserDataInput {
   name: String
+  sessions: SessionUpdateManyWithoutCategoryInput
 }
 
 input CategoryUpdateWithWhereUniqueWithoutUserInput {
@@ -178,9 +188,9 @@ input CategoryUpdateWithWhereUniqueWithoutUserInput {
   data: CategoryUpdateWithoutUserDataInput!
 }
 
-input CategoryUpsertNestedInput {
-  update: CategoryUpdateDataInput!
-  create: CategoryCreateInput!
+input CategoryUpsertWithoutSessionsInput {
+  update: CategoryUpdateWithoutSessionsDataInput!
+  create: CategoryCreateWithoutSessionsInput!
 }
 
 input CategoryUpsertWithWhereUniqueWithoutUserInput {
@@ -219,6 +229,9 @@ input CategoryWhereInput {
   name_ends_with: String
   name_not_ends_with: String
   user: UserWhereInput
+  sessions_every: SessionWhereInput
+  sessions_some: SessionWhereInput
+  sessions_none: SessionWhereInput
   AND: [CategoryWhereInput!]
   OR: [CategoryWhereInput!]
   NOT: [CategoryWhereInput!]
@@ -232,12 +245,11 @@ scalar DateTime
 
 type Day {
   id: ID!
-  date: DateTime!
+  createdAt: DateTime!
   user: User!
-  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session!]
-  rating: Int
-  description: String
-  taskForTomorrow: String
+  rating: Int!
+  description: String!
+  taskForTomorrow: String!
 }
 
 type DayConnection {
@@ -247,12 +259,10 @@ type DayConnection {
 }
 
 input DayCreateInput {
-  date: DateTime!
   user: UserCreateOneWithoutDaysInput!
-  sessions: SessionCreateManyInput
-  rating: Int
-  description: String
-  taskForTomorrow: String
+  rating: Int!
+  description: String!
+  taskForTomorrow: String!
 }
 
 input DayCreateManyWithoutUserInput {
@@ -261,11 +271,9 @@ input DayCreateManyWithoutUserInput {
 }
 
 input DayCreateWithoutUserInput {
-  date: DateTime!
-  sessions: SessionCreateManyInput
-  rating: Int
-  description: String
-  taskForTomorrow: String
+  rating: Int!
+  description: String!
+  taskForTomorrow: String!
 }
 
 type DayEdge {
@@ -276,26 +284,24 @@ type DayEdge {
 enum DayOrderByInput {
   id_ASC
   id_DESC
-  date_ASC
-  date_DESC
+  createdAt_ASC
+  createdAt_DESC
   rating_ASC
   rating_DESC
   description_ASC
   description_DESC
   taskForTomorrow_ASC
   taskForTomorrow_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
 type DayPreviousValues {
   id: ID!
-  date: DateTime!
-  rating: Int
-  description: String
-  taskForTomorrow: String
+  createdAt: DateTime!
+  rating: Int!
+  description: String!
+  taskForTomorrow: String!
 }
 
 input DayScalarWhereInput {
@@ -313,14 +319,14 @@ input DayScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  date: DateTime
-  date_not: DateTime
-  date_in: [DateTime!]
-  date_not_in: [DateTime!]
-  date_lt: DateTime
-  date_lte: DateTime
-  date_gt: DateTime
-  date_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   rating: Int
   rating_not: Int
   rating_in: [Int!]
@@ -381,23 +387,19 @@ input DaySubscriptionWhereInput {
 }
 
 input DayUpdateInput {
-  date: DateTime
   user: UserUpdateOneRequiredWithoutDaysInput
-  sessions: SessionUpdateManyInput
   rating: Int
   description: String
   taskForTomorrow: String
 }
 
 input DayUpdateManyDataInput {
-  date: DateTime
   rating: Int
   description: String
   taskForTomorrow: String
 }
 
 input DayUpdateManyMutationInput {
-  date: DateTime
   rating: Int
   description: String
   taskForTomorrow: String
@@ -421,8 +423,6 @@ input DayUpdateManyWithWhereNestedInput {
 }
 
 input DayUpdateWithoutUserDataInput {
-  date: DateTime
-  sessions: SessionUpdateManyInput
   rating: Int
   description: String
   taskForTomorrow: String
@@ -454,18 +454,15 @@ input DayWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  date: DateTime
-  date_not: DateTime
-  date_in: [DateTime!]
-  date_not_in: [DateTime!]
-  date_lt: DateTime
-  date_lte: DateTime
-  date_gt: DateTime
-  date_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   user: UserWhereInput
-  sessions_every: SessionWhereInput
-  sessions_some: SessionWhereInput
-  sessions_none: SessionWhereInput
   rating: Int
   rating_not: Int
   rating_in: [Int!]
@@ -588,14 +585,19 @@ type SessionConnection {
 }
 
 input SessionCreateInput {
-  category: CategoryCreateOneInput!
+  category: CategoryCreateOneWithoutSessionsInput!
   length: Int!
   user: UserCreateOneInput!
 }
 
-input SessionCreateManyInput {
-  create: [SessionCreateInput!]
+input SessionCreateManyWithoutCategoryInput {
+  create: [SessionCreateWithoutCategoryInput!]
   connect: [SessionWhereUniqueInput!]
+}
+
+input SessionCreateWithoutCategoryInput {
+  length: Int!
+  user: UserCreateOneInput!
 }
 
 type SessionEdge {
@@ -674,14 +676,8 @@ input SessionSubscriptionWhereInput {
   NOT: [SessionSubscriptionWhereInput!]
 }
 
-input SessionUpdateDataInput {
-  category: CategoryUpdateOneRequiredInput
-  length: Int
-  user: UserUpdateOneRequiredInput
-}
-
 input SessionUpdateInput {
-  category: CategoryUpdateOneRequiredInput
+  category: CategoryUpdateOneRequiredWithoutSessionsInput
   length: Int
   user: UserUpdateOneRequiredInput
 }
@@ -690,20 +686,20 @@ input SessionUpdateManyDataInput {
   length: Int
 }
 
-input SessionUpdateManyInput {
-  create: [SessionCreateInput!]
-  update: [SessionUpdateWithWhereUniqueNestedInput!]
-  upsert: [SessionUpsertWithWhereUniqueNestedInput!]
+input SessionUpdateManyMutationInput {
+  length: Int
+}
+
+input SessionUpdateManyWithoutCategoryInput {
+  create: [SessionCreateWithoutCategoryInput!]
   delete: [SessionWhereUniqueInput!]
   connect: [SessionWhereUniqueInput!]
   set: [SessionWhereUniqueInput!]
   disconnect: [SessionWhereUniqueInput!]
+  update: [SessionUpdateWithWhereUniqueWithoutCategoryInput!]
+  upsert: [SessionUpsertWithWhereUniqueWithoutCategoryInput!]
   deleteMany: [SessionScalarWhereInput!]
   updateMany: [SessionUpdateManyWithWhereNestedInput!]
-}
-
-input SessionUpdateManyMutationInput {
-  length: Int
 }
 
 input SessionUpdateManyWithWhereNestedInput {
@@ -711,15 +707,20 @@ input SessionUpdateManyWithWhereNestedInput {
   data: SessionUpdateManyDataInput!
 }
 
-input SessionUpdateWithWhereUniqueNestedInput {
-  where: SessionWhereUniqueInput!
-  data: SessionUpdateDataInput!
+input SessionUpdateWithoutCategoryDataInput {
+  length: Int
+  user: UserUpdateOneRequiredInput
 }
 
-input SessionUpsertWithWhereUniqueNestedInput {
+input SessionUpdateWithWhereUniqueWithoutCategoryInput {
   where: SessionWhereUniqueInput!
-  update: SessionUpdateDataInput!
-  create: SessionCreateInput!
+  data: SessionUpdateWithoutCategoryDataInput!
+}
+
+input SessionUpsertWithWhereUniqueWithoutCategoryInput {
+  where: SessionWhereUniqueInput!
+  update: SessionUpdateWithoutCategoryDataInput!
+  create: SessionCreateWithoutCategoryInput!
 }
 
 input SessionWhereInput {
