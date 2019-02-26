@@ -1,6 +1,8 @@
 import React from "react"
 import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
+import Link from "gatsby-link"
+import { Box, TextInput, Button, FormField } from "grommet"
 
 import Error from "./Error"
 import { client } from "../apollo/client"
@@ -13,6 +15,9 @@ const SIGNIN_MUTATION = gql`
         id
         name
         email
+        categories {
+          name
+        }
       }
     }
   }
@@ -40,7 +45,7 @@ class Signin extends React.Component {
       >
         {(signin, { loading, error }) => {
           return (
-            <>
+            <Box pad="small">
               <form
                 onSubmit={async e => {
                   console.log("sign in")
@@ -49,30 +54,38 @@ class Signin extends React.Component {
                   console.log("RES", res)
                 }}
               >
-                <fieldset disabled={loading} aria-busy={loading}>
-                  <h1>Sign In</h1>
-                  <Error error={error} />
-                  <input
+                <h1>Sign In</h1>
+                <Error error={error} />
+
+                <FormField label="Email">
+                  <TextInput
                     name="email"
                     type="email"
-                    placeholder="email"
                     autoComplete="current-password"
                     value={this.state.email}
                     onChange={this.handleChange}
                   />
-                  <input
+                </FormField>
+
+                <FormField label="Password">
+                  <TextInput
                     name="password"
                     type="password"
-                    placeholder="password"
                     autoComplete="current-password"
                     value={this.state.password}
                     onChange={this.handleChange}
                   />
+                </FormField>
 
-                  <button type="submit">submit</button>
-                </fieldset>
+                <Button
+                  type="submit"
+                  label="Submit"
+                  disabled={loading}
+                  primary={true}
+                  alignSelf="center"
+                />
               </form>
-            </>
+            </Box>
           )
         }}
       </Mutation>

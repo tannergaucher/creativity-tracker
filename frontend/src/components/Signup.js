@@ -3,6 +3,8 @@ import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
 import { client } from "../apollo/client"
 
+import { Box, TextInput, FormField, Button } from "grommet"
+
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
     $email: String!
@@ -42,41 +44,44 @@ class Signup extends React.Component {
         }}
       >
         {(signup, { loading, error }) => (
-          <>
+          <Box pad="small">
             <form
               onSubmit={async e => {
                 e.preventDefault()
                 const res = await signup()
-                console.log("RES", res)
               }}
             >
-              <fieldset disabled={loading} aria-busy={loading}>
-                <h1>Sign up</h1>
-                <input
+              <h1>Sign up</h1>
+
+              <FormField label="Email">
+                <TextInput
                   name="email"
                   type="email"
-                  placeholder="email"
                   value={this.state.email}
                   onChange={this.handleChange}
                 />
-                <input
+              </FormField>
+
+              <FormField label="password">
+                <TextInput
                   name="password"
                   type="password"
-                  placeholder="password"
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
-                <input
+              </FormField>
+
+              <FormField label="Name">
+                <TextInput
                   name="name"
                   type="name"
-                  placeholder="name"
                   value={this.state.name}
                   onChange={this.handleChange}
                 />
-                <button type="submit">submit</button>
-              </fieldset>
+              </FormField>
+              <Button label="Sign up" disabled={loading} />
             </form>
-          </>
+          </Box>
         )}
       </Mutation>
     )

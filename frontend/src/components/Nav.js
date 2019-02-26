@@ -6,10 +6,13 @@ import { Query } from "react-apollo"
 
 import { IS_LOGGED_IN } from "./layout"
 import Signout from "../components/Signout"
+import Sidebar from "../components/Sidebar"
+
+const isSidebarOpen = false
 
 const Nav = ({ siteTitle }) => (
   <header>
-    <Link to="/">{siteTitle}</Link>
+    {isSidebarOpen && <Sidebar />}
     <Query query={IS_LOGGED_IN}>
       {({ data }) => (data.isLoggedIn ? <Signout /> : null)}
     </Query>
