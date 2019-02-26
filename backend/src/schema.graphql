@@ -14,9 +14,9 @@ type Mutation {
   signup(email: String!, password: String!, name: String): AuthPayload!
   signin(email: String!, password: String!): AuthPayload!
   signout: SuccessMessage
-  createCategory(name: String!): Category
-  updateCategory(id: ID!): Category
-  deleteCategory(id: ID!): Category
+  createCategory(name: String!): Category!
+  updateCategory(id: ID!): Category!
+  deleteCategory(id: ID!): Category!
   # createSession(length: Int, category: Category!): Session!
   createDay(
     rating: Int

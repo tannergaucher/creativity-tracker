@@ -41,6 +41,16 @@ const Mutation = {
   signout: (parent, { id }, context) => {
     return { message: 'Goodbye' }
   },
+  createCategory: async (parent, { name }, context) => {
+    // get userId
+    const userId = getUserId(context)
+    // create category w/ name arg
+    return context.prisma.createCategory({
+      name,
+      // connect to the user
+      user: { connect: { id: userId } },
+    })
+  },
 }
 
 module.exports = {
