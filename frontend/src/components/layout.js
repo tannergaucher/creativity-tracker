@@ -1,6 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
+import gql from "graphql-tag"
+import { Query } from "react-apollo"
 
 import Header from "../components/header"
 
