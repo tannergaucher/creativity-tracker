@@ -44,12 +44,39 @@ const Mutation = {
   createCategory: async (parent, { name }, context) => {
     // get userId
     const userId = getUserId(context)
+
+    if (!userId) {
+      return null
+    }
+
     // create category w/ name arg
     return context.prisma.createCategory({
       name,
       // connect to the user
       user: { connect: { id: userId } },
     })
+  },
+  updateCategory: async (parent, { id, name }, context) => {
+    // get userId
+    const userId = getUserId(context)
+
+    if (!userId) {
+      return null
+    }
+
+    // update that category with name
+    return context.prisma.updateCategory({
+      where: { id },
+      data: { name },
+    })
+  },
+  deleteCategory: async (parent, { id }, context) => {
+    const userId = getUserId(context)
+    if (!userId) {
+      return null
+    }
+    //delete category with given id
+    return context.prisma.deleteCategory({ id })
   },
 }
 
