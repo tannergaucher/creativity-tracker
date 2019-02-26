@@ -1,6 +1,7 @@
 import React from "react"
 import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
+import { client } from "../apollo/client"
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
@@ -32,15 +33,19 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Mutation mutation={SIGNUP_MUTATION} variables={this.state}>
+      <Mutation
+        mutation={SIGNUP_MUTATION}
+        variables={this.state}
+        onCompleted={({ signup }) => {
+          localStorage.setItem("token", signup.token)
+          client.writeData({ data: { isLoggedIn: true } })
+        }}
+      >
         {(signup, { loading, error }) => (
           <>
             <form
               onSubmit={async e => {
                 e.preventDefault()
-                if (error) {
-                  console.log(error.message)
-                }
                 const res = await signup()
                 console.log("RES", res)
               }}

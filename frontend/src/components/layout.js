@@ -4,7 +4,22 @@ import { StaticQuery, graphql } from "gatsby"
 import gql from "graphql-tag"
 import { Query } from "react-apollo"
 
-import Header from "../components/header"
+import Nav from "../components/Nav"
+import Signup from "../components/Signup"
+import Signin from "../components/Signin"
+
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`
+
+const Auth = () => (
+  <>
+    <Signin />
+    <Signup />
+  </>
+)
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -19,8 +34,12 @@ const Layout = ({ children }) => (
     `}
     render={data => (
       <>
-        <Header siteTitle={data.site.siteMetadata.title} />
-        <main>{children}</main>
+        <Nav siteTitle={data.site.siteMetadata.title} />
+        <Query query={IS_LOGGED_IN}>
+          {({ data }) => {
+            return data.isLoggedIn ? <main>{children}</main> : <Auth />
+          }}
+        </Query>
       </>
     )}
   />
@@ -31,3 +50,5 @@ Layout.propTypes = {
 }
 
 export default Layout
+
+export { IS_LOGGED_IN }

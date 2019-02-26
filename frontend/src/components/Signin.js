@@ -34,7 +34,7 @@ class Signin extends React.Component {
         mutation={SIGNIN_MUTATION}
         variables={this.state}
         onCompleted={({ signin }) => {
-          localStorage.setItem("token", signin)
+          localStorage.setItem("token", signin.token)
           client.writeData({ data: { isLoggedIn: true } })
         }}
       >
