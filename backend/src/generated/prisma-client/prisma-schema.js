@@ -3,7 +3,19 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateCategory {
+  count: Int!
+}
+
+type AggregateDay {
+  count: Int!
+}
+
+type AggregateSession {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -11,9 +23,515 @@ type BatchPayload {
   count: Long!
 }
 
+type Category {
+  id: ID!
+  name: String!
+  user: User!
+}
+
+type CategoryConnection {
+  pageInfo: PageInfo!
+  edges: [CategoryEdge]!
+  aggregate: AggregateCategory!
+}
+
+input CategoryCreateInput {
+  name: String!
+  user: UserCreateOneWithoutCategoriesInput!
+}
+
+input CategoryCreateManyWithoutUserInput {
+  create: [CategoryCreateWithoutUserInput!]
+  connect: [CategoryWhereUniqueInput!]
+}
+
+input CategoryCreateOneInput {
+  create: CategoryCreateInput
+  connect: CategoryWhereUniqueInput
+}
+
+input CategoryCreateWithoutUserInput {
+  name: String!
+}
+
+type CategoryEdge {
+  node: Category!
+  cursor: String!
+}
+
+enum CategoryOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type CategoryPreviousValues {
+  id: ID!
+  name: String!
+}
+
+input CategoryScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [CategoryScalarWhereInput!]
+  OR: [CategoryScalarWhereInput!]
+  NOT: [CategoryScalarWhereInput!]
+}
+
+type CategorySubscriptionPayload {
+  mutation: MutationType!
+  node: Category
+  updatedFields: [String!]
+  previousValues: CategoryPreviousValues
+}
+
+input CategorySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CategoryWhereInput
+  AND: [CategorySubscriptionWhereInput!]
+  OR: [CategorySubscriptionWhereInput!]
+  NOT: [CategorySubscriptionWhereInput!]
+}
+
+input CategoryUpdateDataInput {
+  name: String
+  user: UserUpdateOneRequiredWithoutCategoriesInput
+}
+
+input CategoryUpdateInput {
+  name: String
+  user: UserUpdateOneRequiredWithoutCategoriesInput
+}
+
+input CategoryUpdateManyDataInput {
+  name: String
+}
+
+input CategoryUpdateManyMutationInput {
+  name: String
+}
+
+input CategoryUpdateManyWithoutUserInput {
+  create: [CategoryCreateWithoutUserInput!]
+  delete: [CategoryWhereUniqueInput!]
+  connect: [CategoryWhereUniqueInput!]
+  set: [CategoryWhereUniqueInput!]
+  disconnect: [CategoryWhereUniqueInput!]
+  update: [CategoryUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [CategoryUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [CategoryScalarWhereInput!]
+  updateMany: [CategoryUpdateManyWithWhereNestedInput!]
+}
+
+input CategoryUpdateManyWithWhereNestedInput {
+  where: CategoryScalarWhereInput!
+  data: CategoryUpdateManyDataInput!
+}
+
+input CategoryUpdateOneRequiredInput {
+  create: CategoryCreateInput
+  update: CategoryUpdateDataInput
+  upsert: CategoryUpsertNestedInput
+  connect: CategoryWhereUniqueInput
+}
+
+input CategoryUpdateWithoutUserDataInput {
+  name: String
+}
+
+input CategoryUpdateWithWhereUniqueWithoutUserInput {
+  where: CategoryWhereUniqueInput!
+  data: CategoryUpdateWithoutUserDataInput!
+}
+
+input CategoryUpsertNestedInput {
+  update: CategoryUpdateDataInput!
+  create: CategoryCreateInput!
+}
+
+input CategoryUpsertWithWhereUniqueWithoutUserInput {
+  where: CategoryWhereUniqueInput!
+  update: CategoryUpdateWithoutUserDataInput!
+  create: CategoryCreateWithoutUserInput!
+}
+
+input CategoryWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  user: UserWhereInput
+  AND: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  NOT: [CategoryWhereInput!]
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
+}
+
+scalar DateTime
+
+type Day {
+  id: ID!
+  date: DateTime!
+  user: User!
+  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session!]
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+type DayConnection {
+  pageInfo: PageInfo!
+  edges: [DayEdge]!
+  aggregate: AggregateDay!
+}
+
+input DayCreateInput {
+  date: DateTime!
+  user: UserCreateOneWithoutDaysInput!
+  sessions: SessionCreateManyInput
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+input DayCreateManyWithoutUserInput {
+  create: [DayCreateWithoutUserInput!]
+  connect: [DayWhereUniqueInput!]
+}
+
+input DayCreateWithoutUserInput {
+  date: DateTime!
+  sessions: SessionCreateManyInput
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+type DayEdge {
+  node: Day!
+  cursor: String!
+}
+
+enum DayOrderByInput {
+  id_ASC
+  id_DESC
+  date_ASC
+  date_DESC
+  rating_ASC
+  rating_DESC
+  description_ASC
+  description_DESC
+  taskForTomorrow_ASC
+  taskForTomorrow_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type DayPreviousValues {
+  id: ID!
+  date: DateTime!
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+input DayScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  rating: Int
+  rating_not: Int
+  rating_in: [Int!]
+  rating_not_in: [Int!]
+  rating_lt: Int
+  rating_lte: Int
+  rating_gt: Int
+  rating_gte: Int
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  taskForTomorrow: String
+  taskForTomorrow_not: String
+  taskForTomorrow_in: [String!]
+  taskForTomorrow_not_in: [String!]
+  taskForTomorrow_lt: String
+  taskForTomorrow_lte: String
+  taskForTomorrow_gt: String
+  taskForTomorrow_gte: String
+  taskForTomorrow_contains: String
+  taskForTomorrow_not_contains: String
+  taskForTomorrow_starts_with: String
+  taskForTomorrow_not_starts_with: String
+  taskForTomorrow_ends_with: String
+  taskForTomorrow_not_ends_with: String
+  AND: [DayScalarWhereInput!]
+  OR: [DayScalarWhereInput!]
+  NOT: [DayScalarWhereInput!]
+}
+
+type DaySubscriptionPayload {
+  mutation: MutationType!
+  node: Day
+  updatedFields: [String!]
+  previousValues: DayPreviousValues
+}
+
+input DaySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: DayWhereInput
+  AND: [DaySubscriptionWhereInput!]
+  OR: [DaySubscriptionWhereInput!]
+  NOT: [DaySubscriptionWhereInput!]
+}
+
+input DayUpdateInput {
+  date: DateTime
+  user: UserUpdateOneRequiredWithoutDaysInput
+  sessions: SessionUpdateManyInput
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+input DayUpdateManyDataInput {
+  date: DateTime
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+input DayUpdateManyMutationInput {
+  date: DateTime
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+input DayUpdateManyWithoutUserInput {
+  create: [DayCreateWithoutUserInput!]
+  delete: [DayWhereUniqueInput!]
+  connect: [DayWhereUniqueInput!]
+  set: [DayWhereUniqueInput!]
+  disconnect: [DayWhereUniqueInput!]
+  update: [DayUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [DayUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [DayScalarWhereInput!]
+  updateMany: [DayUpdateManyWithWhereNestedInput!]
+}
+
+input DayUpdateManyWithWhereNestedInput {
+  where: DayScalarWhereInput!
+  data: DayUpdateManyDataInput!
+}
+
+input DayUpdateWithoutUserDataInput {
+  date: DateTime
+  sessions: SessionUpdateManyInput
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+input DayUpdateWithWhereUniqueWithoutUserInput {
+  where: DayWhereUniqueInput!
+  data: DayUpdateWithoutUserDataInput!
+}
+
+input DayUpsertWithWhereUniqueWithoutUserInput {
+  where: DayWhereUniqueInput!
+  update: DayUpdateWithoutUserDataInput!
+  create: DayCreateWithoutUserInput!
+}
+
+input DayWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  user: UserWhereInput
+  sessions_every: SessionWhereInput
+  sessions_some: SessionWhereInput
+  sessions_none: SessionWhereInput
+  rating: Int
+  rating_not: Int
+  rating_in: [Int!]
+  rating_not_in: [Int!]
+  rating_lt: Int
+  rating_lte: Int
+  rating_gt: Int
+  rating_gte: Int
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  taskForTomorrow: String
+  taskForTomorrow_not: String
+  taskForTomorrow_in: [String!]
+  taskForTomorrow_not_in: [String!]
+  taskForTomorrow_lt: String
+  taskForTomorrow_lte: String
+  taskForTomorrow_gt: String
+  taskForTomorrow_gte: String
+  taskForTomorrow_contains: String
+  taskForTomorrow_not_contains: String
+  taskForTomorrow_starts_with: String
+  taskForTomorrow_not_starts_with: String
+  taskForTomorrow_ends_with: String
+  taskForTomorrow_not_ends_with: String
+  AND: [DayWhereInput!]
+  OR: [DayWhereInput!]
+  NOT: [DayWhereInput!]
+}
+
+input DayWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createCategory(data: CategoryCreateInput!): Category!
+  updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+  updateManyCategories(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
+  upsertCategory(where: CategoryWhereUniqueInput!, create: CategoryCreateInput!, update: CategoryUpdateInput!): Category!
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
+  deleteManyCategories(where: CategoryWhereInput): BatchPayload!
+  createDay(data: DayCreateInput!): Day!
+  updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
+  updateManyDays(data: DayUpdateManyMutationInput!, where: DayWhereInput): BatchPayload!
+  upsertDay(where: DayWhereUniqueInput!, create: DayCreateInput!, update: DayUpdateInput!): Day!
+  deleteDay(where: DayWhereUniqueInput!): Day
+  deleteManyDays(where: DayWhereInput): BatchPayload!
+  createSession(data: SessionCreateInput!): Session!
+  updateSession(data: SessionUpdateInput!, where: SessionWhereUniqueInput!): Session
+  updateManySessions(data: SessionUpdateManyMutationInput!, where: SessionWhereInput): BatchPayload!
+  upsertSession(where: SessionWhereUniqueInput!, create: SessionCreateInput!, update: SessionUpdateInput!): Session!
+  deleteSession(where: SessionWhereUniqueInput!): Session
+  deleteManySessions(where: SessionWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -40,13 +558,216 @@ type PageInfo {
 }
 
 type Query {
+  category(where: CategoryWhereUniqueInput!): Category
+  categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
+  categoriesConnection(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CategoryConnection!
+  day(where: DayWhereUniqueInput!): Day
+  days(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day]!
+  daysConnection(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DayConnection!
+  session(where: SessionWhereUniqueInput!): Session
+  sessions(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Session]!
+  sessionsConnection(where: SessionWhereInput, orderBy: SessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SessionConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type Session {
+  id: ID!
+  category: Category!
+  length: Int!
+  user: User!
+  createdAt: DateTime!
+}
+
+type SessionConnection {
+  pageInfo: PageInfo!
+  edges: [SessionEdge]!
+  aggregate: AggregateSession!
+}
+
+input SessionCreateInput {
+  category: CategoryCreateOneInput!
+  length: Int!
+  user: UserCreateOneInput!
+}
+
+input SessionCreateManyInput {
+  create: [SessionCreateInput!]
+  connect: [SessionWhereUniqueInput!]
+}
+
+type SessionEdge {
+  node: Session!
+  cursor: String!
+}
+
+enum SessionOrderByInput {
+  id_ASC
+  id_DESC
+  length_ASC
+  length_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type SessionPreviousValues {
+  id: ID!
+  length: Int!
+  createdAt: DateTime!
+}
+
+input SessionScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  length: Int
+  length_not: Int
+  length_in: [Int!]
+  length_not_in: [Int!]
+  length_lt: Int
+  length_lte: Int
+  length_gt: Int
+  length_gte: Int
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [SessionScalarWhereInput!]
+  OR: [SessionScalarWhereInput!]
+  NOT: [SessionScalarWhereInput!]
+}
+
+type SessionSubscriptionPayload {
+  mutation: MutationType!
+  node: Session
+  updatedFields: [String!]
+  previousValues: SessionPreviousValues
+}
+
+input SessionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SessionWhereInput
+  AND: [SessionSubscriptionWhereInput!]
+  OR: [SessionSubscriptionWhereInput!]
+  NOT: [SessionSubscriptionWhereInput!]
+}
+
+input SessionUpdateDataInput {
+  category: CategoryUpdateOneRequiredInput
+  length: Int
+  user: UserUpdateOneRequiredInput
+}
+
+input SessionUpdateInput {
+  category: CategoryUpdateOneRequiredInput
+  length: Int
+  user: UserUpdateOneRequiredInput
+}
+
+input SessionUpdateManyDataInput {
+  length: Int
+}
+
+input SessionUpdateManyInput {
+  create: [SessionCreateInput!]
+  update: [SessionUpdateWithWhereUniqueNestedInput!]
+  upsert: [SessionUpsertWithWhereUniqueNestedInput!]
+  delete: [SessionWhereUniqueInput!]
+  connect: [SessionWhereUniqueInput!]
+  set: [SessionWhereUniqueInput!]
+  disconnect: [SessionWhereUniqueInput!]
+  deleteMany: [SessionScalarWhereInput!]
+  updateMany: [SessionUpdateManyWithWhereNestedInput!]
+}
+
+input SessionUpdateManyMutationInput {
+  length: Int
+}
+
+input SessionUpdateManyWithWhereNestedInput {
+  where: SessionScalarWhereInput!
+  data: SessionUpdateManyDataInput!
+}
+
+input SessionUpdateWithWhereUniqueNestedInput {
+  where: SessionWhereUniqueInput!
+  data: SessionUpdateDataInput!
+}
+
+input SessionUpsertWithWhereUniqueNestedInput {
+  where: SessionWhereUniqueInput!
+  update: SessionUpdateDataInput!
+  create: SessionCreateInput!
+}
+
+input SessionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  category: CategoryWhereInput
+  length: Int
+  length_not: Int
+  length_in: [Int!]
+  length_not_in: [Int!]
+  length_lt: Int
+  length_lte: Int
+  length_gt: Int
+  length_gte: Int
+  user: UserWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [SessionWhereInput!]
+  OR: [SessionWhereInput!]
+  NOT: [SessionWhereInput!]
+}
+
+input SessionWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
+  category(where: CategorySubscriptionWhereInput): CategorySubscriptionPayload
+  day(where: DaySubscriptionWhereInput): DaySubscriptionPayload
+  session(where: SessionSubscriptionWhereInput): SessionSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -55,6 +776,8 @@ type User {
   email: String!
   password: String!
   name: String!
+  categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category!]
+  days(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day!]
 }
 
 type UserConnection {
@@ -67,6 +790,37 @@ input UserCreateInput {
   email: String!
   password: String!
   name: String!
+  categories: CategoryCreateManyWithoutUserInput
+  days: DayCreateManyWithoutUserInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutCategoriesInput {
+  create: UserCreateWithoutCategoriesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutDaysInput {
+  create: UserCreateWithoutDaysInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutCategoriesInput {
+  email: String!
+  password: String!
+  name: String!
+  days: DayCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutDaysInput {
+  email: String!
+  password: String!
+  name: String!
+  categories: CategoryCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -114,16 +868,76 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  email: String
+  password: String
+  name: String
+  categories: CategoryUpdateManyWithoutUserInput
+  days: DayUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   email: String
   password: String
   name: String
+  categories: CategoryUpdateManyWithoutUserInput
+  days: DayUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   email: String
   password: String
   name: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredWithoutCategoriesInput {
+  create: UserCreateWithoutCategoriesInput
+  update: UserUpdateWithoutCategoriesDataInput
+  upsert: UserUpsertWithoutCategoriesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredWithoutDaysInput {
+  create: UserCreateWithoutDaysInput
+  update: UserUpdateWithoutDaysDataInput
+  upsert: UserUpsertWithoutDaysInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutCategoriesDataInput {
+  email: String
+  password: String
+  name: String
+  days: DayUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutDaysDataInput {
+  email: String
+  password: String
+  name: String
+  categories: CategoryUpdateManyWithoutUserInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithoutCategoriesInput {
+  update: UserUpdateWithoutCategoriesDataInput!
+  create: UserCreateWithoutCategoriesInput!
+}
+
+input UserUpsertWithoutDaysInput {
+  update: UserUpdateWithoutDaysDataInput!
+  create: UserCreateWithoutDaysInput!
 }
 
 input UserWhereInput {
@@ -183,6 +997,12 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  categories_every: CategoryWhereInput
+  categories_some: CategoryWhereInput
+  categories_none: CategoryWhereInput
+  days_every: DayWhereInput
+  days_some: DayWhereInput
+  days_none: DayWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

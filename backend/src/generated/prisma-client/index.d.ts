@@ -14,6 +14,9 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  category: (where?: CategoryWhereInput) => Promise<boolean>;
+  day: (where?: DayWhereInput) => Promise<boolean>;
+  session: (where?: SessionWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -36,6 +39,75 @@ export interface Prisma {
    * Queries
    */
 
+  category: (where: CategoryWhereUniqueInput) => CategoryPromise;
+  categories: (
+    args?: {
+      where?: CategoryWhereInput;
+      orderBy?: CategoryOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Category>;
+  categoriesConnection: (
+    args?: {
+      where?: CategoryWhereInput;
+      orderBy?: CategoryOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => CategoryConnectionPromise;
+  day: (where: DayWhereUniqueInput) => DayPromise;
+  days: (
+    args?: {
+      where?: DayWhereInput;
+      orderBy?: DayOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Day>;
+  daysConnection: (
+    args?: {
+      where?: DayWhereInput;
+      orderBy?: DayOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => DayConnectionPromise;
+  session: (where: SessionWhereUniqueInput) => SessionPromise;
+  sessions: (
+    args?: {
+      where?: SessionWhereInput;
+      orderBy?: SessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Session>;
+  sessionsConnection: (
+    args?: {
+      where?: SessionWhereInput;
+      orderBy?: SessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => SessionConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserPromise;
   users: (
     args?: {
@@ -65,6 +137,54 @@ export interface Prisma {
    * Mutations
    */
 
+  createCategory: (data: CategoryCreateInput) => CategoryPromise;
+  updateCategory: (
+    args: { data: CategoryUpdateInput; where: CategoryWhereUniqueInput }
+  ) => CategoryPromise;
+  updateManyCategories: (
+    args: { data: CategoryUpdateManyMutationInput; where?: CategoryWhereInput }
+  ) => BatchPayloadPromise;
+  upsertCategory: (
+    args: {
+      where: CategoryWhereUniqueInput;
+      create: CategoryCreateInput;
+      update: CategoryUpdateInput;
+    }
+  ) => CategoryPromise;
+  deleteCategory: (where: CategoryWhereUniqueInput) => CategoryPromise;
+  deleteManyCategories: (where?: CategoryWhereInput) => BatchPayloadPromise;
+  createDay: (data: DayCreateInput) => DayPromise;
+  updateDay: (
+    args: { data: DayUpdateInput; where: DayWhereUniqueInput }
+  ) => DayPromise;
+  updateManyDays: (
+    args: { data: DayUpdateManyMutationInput; where?: DayWhereInput }
+  ) => BatchPayloadPromise;
+  upsertDay: (
+    args: {
+      where: DayWhereUniqueInput;
+      create: DayCreateInput;
+      update: DayUpdateInput;
+    }
+  ) => DayPromise;
+  deleteDay: (where: DayWhereUniqueInput) => DayPromise;
+  deleteManyDays: (where?: DayWhereInput) => BatchPayloadPromise;
+  createSession: (data: SessionCreateInput) => SessionPromise;
+  updateSession: (
+    args: { data: SessionUpdateInput; where: SessionWhereUniqueInput }
+  ) => SessionPromise;
+  updateManySessions: (
+    args: { data: SessionUpdateManyMutationInput; where?: SessionWhereInput }
+  ) => BatchPayloadPromise;
+  upsertSession: (
+    args: {
+      where: SessionWhereUniqueInput;
+      create: SessionCreateInput;
+      update: SessionUpdateInput;
+    }
+  ) => SessionPromise;
+  deleteSession: (where: SessionWhereUniqueInput) => SessionPromise;
+  deleteManySessions: (where?: SessionWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (
     args: { data: UserUpdateInput; where: UserWhereUniqueInput }
@@ -90,6 +210,15 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  category: (
+    where?: CategorySubscriptionWhereInput
+  ) => CategorySubscriptionPayloadSubscription;
+  day: (
+    where?: DaySubscriptionWhereInput
+  ) => DaySubscriptionPayloadSubscription;
+  session: (
+    where?: SessionSubscriptionWhereInput
+  ) => SessionSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -102,6 +231,42 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type CategoryOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type DayOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "date_ASC"
+  | "date_DESC"
+  | "rating_ASC"
+  | "rating_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "taskForTomorrow_ASC"
+  | "taskForTomorrow_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type SessionOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "length_ASC"
+  | "length_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -119,10 +284,44 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type UserWhereUniqueInput = AtLeastOne<{
+export type CategoryWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
-  email?: String;
 }>;
+
+export interface CategoryWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  user?: UserWhereInput;
+  AND?: CategoryWhereInput[] | CategoryWhereInput;
+  OR?: CategoryWhereInput[] | CategoryWhereInput;
+  NOT?: CategoryWhereInput[] | CategoryWhereInput;
+}
 
 export interface UserWhereInput {
   id?: ID_Input;
@@ -181,27 +380,649 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
+  categories_every?: CategoryWhereInput;
+  categories_some?: CategoryWhereInput;
+  categories_none?: CategoryWhereInput;
+  days_every?: DayWhereInput;
+  days_some?: DayWhereInput;
+  days_none?: DayWhereInput;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
+}
+
+export interface DayWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  date?: DateTimeInput;
+  date_not?: DateTimeInput;
+  date_in?: DateTimeInput[] | DateTimeInput;
+  date_not_in?: DateTimeInput[] | DateTimeInput;
+  date_lt?: DateTimeInput;
+  date_lte?: DateTimeInput;
+  date_gt?: DateTimeInput;
+  date_gte?: DateTimeInput;
+  user?: UserWhereInput;
+  sessions_every?: SessionWhereInput;
+  sessions_some?: SessionWhereInput;
+  sessions_none?: SessionWhereInput;
+  rating?: Int;
+  rating_not?: Int;
+  rating_in?: Int[] | Int;
+  rating_not_in?: Int[] | Int;
+  rating_lt?: Int;
+  rating_lte?: Int;
+  rating_gt?: Int;
+  rating_gte?: Int;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  taskForTomorrow?: String;
+  taskForTomorrow_not?: String;
+  taskForTomorrow_in?: String[] | String;
+  taskForTomorrow_not_in?: String[] | String;
+  taskForTomorrow_lt?: String;
+  taskForTomorrow_lte?: String;
+  taskForTomorrow_gt?: String;
+  taskForTomorrow_gte?: String;
+  taskForTomorrow_contains?: String;
+  taskForTomorrow_not_contains?: String;
+  taskForTomorrow_starts_with?: String;
+  taskForTomorrow_not_starts_with?: String;
+  taskForTomorrow_ends_with?: String;
+  taskForTomorrow_not_ends_with?: String;
+  AND?: DayWhereInput[] | DayWhereInput;
+  OR?: DayWhereInput[] | DayWhereInput;
+  NOT?: DayWhereInput[] | DayWhereInput;
+}
+
+export interface SessionWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  category?: CategoryWhereInput;
+  length?: Int;
+  length_not?: Int;
+  length_in?: Int[] | Int;
+  length_not_in?: Int[] | Int;
+  length_lt?: Int;
+  length_lte?: Int;
+  length_gt?: Int;
+  length_gte?: Int;
+  user?: UserWhereInput;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: SessionWhereInput[] | SessionWhereInput;
+  OR?: SessionWhereInput[] | SessionWhereInput;
+  NOT?: SessionWhereInput[] | SessionWhereInput;
+}
+
+export type DayWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export type SessionWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export interface CategoryCreateInput {
+  name: String;
+  user: UserCreateOneWithoutCategoriesInput;
+}
+
+export interface UserCreateOneWithoutCategoriesInput {
+  create?: UserCreateWithoutCategoriesInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutCategoriesInput {
+  email: String;
+  password: String;
+  name: String;
+  days?: DayCreateManyWithoutUserInput;
+}
+
+export interface DayCreateManyWithoutUserInput {
+  create?: DayCreateWithoutUserInput[] | DayCreateWithoutUserInput;
+  connect?: DayWhereUniqueInput[] | DayWhereUniqueInput;
+}
+
+export interface DayCreateWithoutUserInput {
+  date: DateTimeInput;
+  sessions?: SessionCreateManyInput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface SessionCreateManyInput {
+  create?: SessionCreateInput[] | SessionCreateInput;
+  connect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+}
+
+export interface SessionCreateInput {
+  category: CategoryCreateOneInput;
+  length: Int;
+  user: UserCreateOneInput;
+}
+
+export interface CategoryCreateOneInput {
+  create?: CategoryCreateInput;
+  connect?: CategoryWhereUniqueInput;
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface UserCreateInput {
   email: String;
   password: String;
   name: String;
+  categories?: CategoryCreateManyWithoutUserInput;
+  days?: DayCreateManyWithoutUserInput;
+}
+
+export interface CategoryCreateManyWithoutUserInput {
+  create?: CategoryCreateWithoutUserInput[] | CategoryCreateWithoutUserInput;
+  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+}
+
+export interface CategoryCreateWithoutUserInput {
+  name: String;
+}
+
+export interface CategoryUpdateInput {
+  name?: String;
+  user?: UserUpdateOneRequiredWithoutCategoriesInput;
+}
+
+export interface UserUpdateOneRequiredWithoutCategoriesInput {
+  create?: UserCreateWithoutCategoriesInput;
+  update?: UserUpdateWithoutCategoriesDataInput;
+  upsert?: UserUpsertWithoutCategoriesInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateWithoutCategoriesDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  days?: DayUpdateManyWithoutUserInput;
+}
+
+export interface DayUpdateManyWithoutUserInput {
+  create?: DayCreateWithoutUserInput[] | DayCreateWithoutUserInput;
+  delete?: DayWhereUniqueInput[] | DayWhereUniqueInput;
+  connect?: DayWhereUniqueInput[] | DayWhereUniqueInput;
+  set?: DayWhereUniqueInput[] | DayWhereUniqueInput;
+  disconnect?: DayWhereUniqueInput[] | DayWhereUniqueInput;
+  update?:
+    | DayUpdateWithWhereUniqueWithoutUserInput[]
+    | DayUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | DayUpsertWithWhereUniqueWithoutUserInput[]
+    | DayUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: DayScalarWhereInput[] | DayScalarWhereInput;
+  updateMany?:
+    | DayUpdateManyWithWhereNestedInput[]
+    | DayUpdateManyWithWhereNestedInput;
+}
+
+export interface DayUpdateWithWhereUniqueWithoutUserInput {
+  where: DayWhereUniqueInput;
+  data: DayUpdateWithoutUserDataInput;
+}
+
+export interface DayUpdateWithoutUserDataInput {
+  date?: DateTimeInput;
+  sessions?: SessionUpdateManyInput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface SessionUpdateManyInput {
+  create?: SessionCreateInput[] | SessionCreateInput;
+  update?:
+    | SessionUpdateWithWhereUniqueNestedInput[]
+    | SessionUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | SessionUpsertWithWhereUniqueNestedInput[]
+    | SessionUpsertWithWhereUniqueNestedInput;
+  delete?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  connect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  set?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  disconnect?: SessionWhereUniqueInput[] | SessionWhereUniqueInput;
+  deleteMany?: SessionScalarWhereInput[] | SessionScalarWhereInput;
+  updateMany?:
+    | SessionUpdateManyWithWhereNestedInput[]
+    | SessionUpdateManyWithWhereNestedInput;
+}
+
+export interface SessionUpdateWithWhereUniqueNestedInput {
+  where: SessionWhereUniqueInput;
+  data: SessionUpdateDataInput;
+}
+
+export interface SessionUpdateDataInput {
+  category?: CategoryUpdateOneRequiredInput;
+  length?: Int;
+  user?: UserUpdateOneRequiredInput;
+}
+
+export interface CategoryUpdateOneRequiredInput {
+  create?: CategoryCreateInput;
+  update?: CategoryUpdateDataInput;
+  upsert?: CategoryUpsertNestedInput;
+  connect?: CategoryWhereUniqueInput;
+}
+
+export interface CategoryUpdateDataInput {
+  name?: String;
+  user?: UserUpdateOneRequiredWithoutCategoriesInput;
+}
+
+export interface CategoryUpsertNestedInput {
+  update: CategoryUpdateDataInput;
+  create: CategoryCreateInput;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  categories?: CategoryUpdateManyWithoutUserInput;
+  days?: DayUpdateManyWithoutUserInput;
+}
+
+export interface CategoryUpdateManyWithoutUserInput {
+  create?: CategoryCreateWithoutUserInput[] | CategoryCreateWithoutUserInput;
+  delete?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  connect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  set?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  disconnect?: CategoryWhereUniqueInput[] | CategoryWhereUniqueInput;
+  update?:
+    | CategoryUpdateWithWhereUniqueWithoutUserInput[]
+    | CategoryUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | CategoryUpsertWithWhereUniqueWithoutUserInput[]
+    | CategoryUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: CategoryScalarWhereInput[] | CategoryScalarWhereInput;
+  updateMany?:
+    | CategoryUpdateManyWithWhereNestedInput[]
+    | CategoryUpdateManyWithWhereNestedInput;
+}
+
+export interface CategoryUpdateWithWhereUniqueWithoutUserInput {
+  where: CategoryWhereUniqueInput;
+  data: CategoryUpdateWithoutUserDataInput;
+}
+
+export interface CategoryUpdateWithoutUserDataInput {
+  name?: String;
+}
+
+export interface CategoryUpsertWithWhereUniqueWithoutUserInput {
+  where: CategoryWhereUniqueInput;
+  update: CategoryUpdateWithoutUserDataInput;
+  create: CategoryCreateWithoutUserInput;
+}
+
+export interface CategoryScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  AND?: CategoryScalarWhereInput[] | CategoryScalarWhereInput;
+  OR?: CategoryScalarWhereInput[] | CategoryScalarWhereInput;
+  NOT?: CategoryScalarWhereInput[] | CategoryScalarWhereInput;
+}
+
+export interface CategoryUpdateManyWithWhereNestedInput {
+  where: CategoryScalarWhereInput;
+  data: CategoryUpdateManyDataInput;
+}
+
+export interface CategoryUpdateManyDataInput {
+  name?: String;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface SessionUpsertWithWhereUniqueNestedInput {
+  where: SessionWhereUniqueInput;
+  update: SessionUpdateDataInput;
+  create: SessionCreateInput;
+}
+
+export interface SessionScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  length?: Int;
+  length_not?: Int;
+  length_in?: Int[] | Int;
+  length_not_in?: Int[] | Int;
+  length_lt?: Int;
+  length_lte?: Int;
+  length_gt?: Int;
+  length_gte?: Int;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  AND?: SessionScalarWhereInput[] | SessionScalarWhereInput;
+  OR?: SessionScalarWhereInput[] | SessionScalarWhereInput;
+  NOT?: SessionScalarWhereInput[] | SessionScalarWhereInput;
+}
+
+export interface SessionUpdateManyWithWhereNestedInput {
+  where: SessionScalarWhereInput;
+  data: SessionUpdateManyDataInput;
+}
+
+export interface SessionUpdateManyDataInput {
+  length?: Int;
+}
+
+export interface DayUpsertWithWhereUniqueWithoutUserInput {
+  where: DayWhereUniqueInput;
+  update: DayUpdateWithoutUserDataInput;
+  create: DayCreateWithoutUserInput;
+}
+
+export interface DayScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  date?: DateTimeInput;
+  date_not?: DateTimeInput;
+  date_in?: DateTimeInput[] | DateTimeInput;
+  date_not_in?: DateTimeInput[] | DateTimeInput;
+  date_lt?: DateTimeInput;
+  date_lte?: DateTimeInput;
+  date_gt?: DateTimeInput;
+  date_gte?: DateTimeInput;
+  rating?: Int;
+  rating_not?: Int;
+  rating_in?: Int[] | Int;
+  rating_not_in?: Int[] | Int;
+  rating_lt?: Int;
+  rating_lte?: Int;
+  rating_gt?: Int;
+  rating_gte?: Int;
+  description?: String;
+  description_not?: String;
+  description_in?: String[] | String;
+  description_not_in?: String[] | String;
+  description_lt?: String;
+  description_lte?: String;
+  description_gt?: String;
+  description_gte?: String;
+  description_contains?: String;
+  description_not_contains?: String;
+  description_starts_with?: String;
+  description_not_starts_with?: String;
+  description_ends_with?: String;
+  description_not_ends_with?: String;
+  taskForTomorrow?: String;
+  taskForTomorrow_not?: String;
+  taskForTomorrow_in?: String[] | String;
+  taskForTomorrow_not_in?: String[] | String;
+  taskForTomorrow_lt?: String;
+  taskForTomorrow_lte?: String;
+  taskForTomorrow_gt?: String;
+  taskForTomorrow_gte?: String;
+  taskForTomorrow_contains?: String;
+  taskForTomorrow_not_contains?: String;
+  taskForTomorrow_starts_with?: String;
+  taskForTomorrow_not_starts_with?: String;
+  taskForTomorrow_ends_with?: String;
+  taskForTomorrow_not_ends_with?: String;
+  AND?: DayScalarWhereInput[] | DayScalarWhereInput;
+  OR?: DayScalarWhereInput[] | DayScalarWhereInput;
+  NOT?: DayScalarWhereInput[] | DayScalarWhereInput;
+}
+
+export interface DayUpdateManyWithWhereNestedInput {
+  where: DayScalarWhereInput;
+  data: DayUpdateManyDataInput;
+}
+
+export interface DayUpdateManyDataInput {
+  date?: DateTimeInput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface UserUpsertWithoutCategoriesInput {
+  update: UserUpdateWithoutCategoriesDataInput;
+  create: UserCreateWithoutCategoriesInput;
+}
+
+export interface CategoryUpdateManyMutationInput {
+  name?: String;
+}
+
+export interface DayCreateInput {
+  date: DateTimeInput;
+  user: UserCreateOneWithoutDaysInput;
+  sessions?: SessionCreateManyInput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface UserCreateOneWithoutDaysInput {
+  create?: UserCreateWithoutDaysInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserCreateWithoutDaysInput {
+  email: String;
+  password: String;
+  name: String;
+  categories?: CategoryCreateManyWithoutUserInput;
+}
+
+export interface DayUpdateInput {
+  date?: DateTimeInput;
+  user?: UserUpdateOneRequiredWithoutDaysInput;
+  sessions?: SessionUpdateManyInput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface UserUpdateOneRequiredWithoutDaysInput {
+  create?: UserCreateWithoutDaysInput;
+  update?: UserUpdateWithoutDaysDataInput;
+  upsert?: UserUpsertWithoutDaysInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateWithoutDaysDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  categories?: CategoryUpdateManyWithoutUserInput;
+}
+
+export interface UserUpsertWithoutDaysInput {
+  update: UserUpdateWithoutDaysDataInput;
+  create: UserCreateWithoutDaysInput;
+}
+
+export interface DayUpdateManyMutationInput {
+  date?: DateTimeInput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface SessionUpdateInput {
+  category?: CategoryUpdateOneRequiredInput;
+  length?: Int;
+  user?: UserUpdateOneRequiredInput;
+}
+
+export interface SessionUpdateManyMutationInput {
+  length?: Int;
 }
 
 export interface UserUpdateInput {
   email?: String;
   password?: String;
   name?: String;
+  categories?: CategoryUpdateManyWithoutUserInput;
+  days?: DayUpdateManyWithoutUserInput;
 }
 
 export interface UserUpdateManyMutationInput {
   email?: String;
   password?: String;
   name?: String;
+}
+
+export interface CategorySubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CategoryWhereInput;
+  AND?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
+  OR?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
+  NOT?: CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput;
+}
+
+export interface DaySubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: DayWhereInput;
+  AND?: DaySubscriptionWhereInput[] | DaySubscriptionWhereInput;
+  OR?: DaySubscriptionWhereInput[] | DaySubscriptionWhereInput;
+  NOT?: DaySubscriptionWhereInput[] | DaySubscriptionWhereInput;
+}
+
+export interface SessionSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: SessionWhereInput;
+  AND?: SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput;
+  OR?: SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput;
+  NOT?: SessionSubscriptionWhereInput[] | SessionSubscriptionWhereInput;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -219,6 +1040,25 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Category {
+  id: ID_Output;
+  name: String;
+}
+
+export interface CategoryPromise extends Promise<Category>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+}
+
+export interface CategorySubscription
+  extends Promise<AsyncIterator<Category>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+}
+
 export interface User {
   id: ID_Output;
   email: String;
@@ -231,6 +1071,28 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   email: () => Promise<String>;
   password: () => Promise<String>;
   name: () => Promise<String>;
+  categories: <T = FragmentableArray<Category>>(
+    args?: {
+      where?: CategoryWhereInput;
+      orderBy?: CategoryOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  days: <T = FragmentableArray<Day>>(
+    args?: {
+      where?: DayWhereInput;
+      orderBy?: DayOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface UserSubscription
@@ -240,27 +1102,123 @@ export interface UserSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
+  categories: <T = Promise<AsyncIterator<CategorySubscription>>>(
+    args?: {
+      where?: CategoryWhereInput;
+      orderBy?: CategoryOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  days: <T = Promise<AsyncIterator<DaySubscription>>>(
+    args?: {
+      where?: DayWhereInput;
+      orderBy?: DayOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
-export interface UserConnection {
+export interface Day {
+  id: ID_Output;
+  date: DateTimeOutput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface DayPromise extends Promise<Day>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  date: () => Promise<DateTimeOutput>;
+  user: <T = UserPromise>() => T;
+  sessions: <T = FragmentableArray<Session>>(
+    args?: {
+      where?: SessionWhereInput;
+      orderBy?: SessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  rating: () => Promise<Int>;
+  description: () => Promise<String>;
+  taskForTomorrow: () => Promise<String>;
+}
+
+export interface DaySubscription
+  extends Promise<AsyncIterator<Day>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  user: <T = UserSubscription>() => T;
+  sessions: <T = Promise<AsyncIterator<SessionSubscription>>>(
+    args?: {
+      where?: SessionWhereInput;
+      orderBy?: SessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  rating: () => Promise<AsyncIterator<Int>>;
+  description: () => Promise<AsyncIterator<String>>;
+  taskForTomorrow: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Session {
+  id: ID_Output;
+  length: Int;
+  createdAt: DateTimeOutput;
+}
+
+export interface SessionPromise extends Promise<Session>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  category: <T = CategoryPromise>() => T;
+  length: () => Promise<Int>;
+  user: <T = UserPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface SessionSubscription
+  extends Promise<AsyncIterator<Session>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  category: <T = CategorySubscription>() => T;
+  length: () => Promise<AsyncIterator<Int>>;
+  user: <T = UserSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CategoryConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: CategoryEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface CategoryConnectionPromise
+  extends Promise<CategoryConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<CategoryEdge>>() => T;
+  aggregate: <T = AggregateCategoryPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface CategoryConnectionSubscription
+  extends Promise<AsyncIterator<CategoryConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCategorySubscription>() => T;
 }
 
 export interface PageInfo {
@@ -284,6 +1242,170 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CategoryEdge {
+  node: Category;
+  cursor: String;
+}
+
+export interface CategoryEdgePromise
+  extends Promise<CategoryEdge>,
+    Fragmentable {
+  node: <T = CategoryPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CategoryEdgeSubscription
+  extends Promise<AsyncIterator<CategoryEdge>>,
+    Fragmentable {
+  node: <T = CategorySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateCategory {
+  count: Int;
+}
+
+export interface AggregateCategoryPromise
+  extends Promise<AggregateCategory>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCategorySubscription
+  extends Promise<AsyncIterator<AggregateCategory>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface DayConnection {
+  pageInfo: PageInfo;
+  edges: DayEdge[];
+}
+
+export interface DayConnectionPromise
+  extends Promise<DayConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DayEdge>>() => T;
+  aggregate: <T = AggregateDayPromise>() => T;
+}
+
+export interface DayConnectionSubscription
+  extends Promise<AsyncIterator<DayConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DayEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDaySubscription>() => T;
+}
+
+export interface DayEdge {
+  node: Day;
+  cursor: String;
+}
+
+export interface DayEdgePromise extends Promise<DayEdge>, Fragmentable {
+  node: <T = DayPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface DayEdgeSubscription
+  extends Promise<AsyncIterator<DayEdge>>,
+    Fragmentable {
+  node: <T = DaySubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateDay {
+  count: Int;
+}
+
+export interface AggregateDayPromise
+  extends Promise<AggregateDay>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateDaySubscription
+  extends Promise<AsyncIterator<AggregateDay>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SessionConnection {
+  pageInfo: PageInfo;
+  edges: SessionEdge[];
+}
+
+export interface SessionConnectionPromise
+  extends Promise<SessionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SessionEdge>>() => T;
+  aggregate: <T = AggregateSessionPromise>() => T;
+}
+
+export interface SessionConnectionSubscription
+  extends Promise<AsyncIterator<SessionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SessionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSessionSubscription>() => T;
+}
+
+export interface SessionEdge {
+  node: Session;
+  cursor: String;
+}
+
+export interface SessionEdgePromise extends Promise<SessionEdge>, Fragmentable {
+  node: <T = SessionPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SessionEdgeSubscription
+  extends Promise<AsyncIterator<SessionEdge>>,
+    Fragmentable {
+  node: <T = SessionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSession {
+  count: Int;
+}
+
+export interface AggregateSessionPromise
+  extends Promise<AggregateSession>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSessionSubscription
+  extends Promise<AsyncIterator<AggregateSession>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -333,6 +1455,150 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface CategorySubscriptionPayload {
+  mutation: MutationType;
+  node: Category;
+  updatedFields: String[];
+  previousValues: CategoryPreviousValues;
+}
+
+export interface CategorySubscriptionPayloadPromise
+  extends Promise<CategorySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CategoryPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CategoryPreviousValuesPromise>() => T;
+}
+
+export interface CategorySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CategorySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CategorySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CategoryPreviousValuesSubscription>() => T;
+}
+
+export interface CategoryPreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface CategoryPreviousValuesPromise
+  extends Promise<CategoryPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface CategoryPreviousValuesSubscription
+  extends Promise<AsyncIterator<CategoryPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface DaySubscriptionPayload {
+  mutation: MutationType;
+  node: Day;
+  updatedFields: String[];
+  previousValues: DayPreviousValues;
+}
+
+export interface DaySubscriptionPayloadPromise
+  extends Promise<DaySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = DayPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = DayPreviousValuesPromise>() => T;
+}
+
+export interface DaySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<DaySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = DaySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = DayPreviousValuesSubscription>() => T;
+}
+
+export interface DayPreviousValues {
+  id: ID_Output;
+  date: DateTimeOutput;
+  rating?: Int;
+  description?: String;
+  taskForTomorrow?: String;
+}
+
+export interface DayPreviousValuesPromise
+  extends Promise<DayPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  date: () => Promise<DateTimeOutput>;
+  rating: () => Promise<Int>;
+  description: () => Promise<String>;
+  taskForTomorrow: () => Promise<String>;
+}
+
+export interface DayPreviousValuesSubscription
+  extends Promise<AsyncIterator<DayPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  rating: () => Promise<AsyncIterator<Int>>;
+  description: () => Promise<AsyncIterator<String>>;
+  taskForTomorrow: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SessionSubscriptionPayload {
+  mutation: MutationType;
+  node: Session;
+  updatedFields: String[];
+  previousValues: SessionPreviousValues;
+}
+
+export interface SessionSubscriptionPayloadPromise
+  extends Promise<SessionSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SessionPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SessionPreviousValuesPromise>() => T;
+}
+
+export interface SessionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SessionSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SessionSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SessionPreviousValuesSubscription>() => T;
+}
+
+export interface SessionPreviousValues {
+  id: ID_Output;
+  length: Int;
+  createdAt: DateTimeOutput;
+}
+
+export interface SessionPreviousValuesPromise
+  extends Promise<SessionPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  length: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface SessionPreviousValuesSubscription
+  extends Promise<AsyncIterator<SessionPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  length: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -397,6 +1663,16 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
+
+/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number;
@@ -415,6 +1691,18 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Category",
+    embedded: false
+  },
+  {
+    name: "Session",
+    embedded: false
+  },
+  {
+    name: "Day",
     embedded: false
   }
 ];
