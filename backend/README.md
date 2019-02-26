@@ -1,1 +1,3 @@
-# Gatsby-Apollo-Prisma-Demo Backend
+# backend
+
+- JWT authentication

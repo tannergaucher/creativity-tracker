@@ -7,9 +7,3 @@ const Session = {
 module.exports = {
   Session,
 }
-
-// const RelationshipType = {
-//   fieldname: ({id}, args, context) => {
-//     return context.prisma.relationshipType({id}).fieldname()
-//   }
-// }

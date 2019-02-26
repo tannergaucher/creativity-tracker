@@ -42,29 +42,24 @@ const Mutation = {
     return { message: 'Goodbye' }
   },
   createCategory: async (parent, { name }, context) => {
-    // get userId
     const userId = getUserId(context)
 
     if (!userId) {
       return null
     }
 
-    // create category w/ name arg
     return context.prisma.createCategory({
       name,
-      // connect to the user
       user: { connect: { id: userId } },
     })
   },
   updateCategory: async (parent, { id, name }, context) => {
-    // get userId
     const userId = getUserId(context)
 
     if (!userId) {
       return null
     }
 
-    // update that category with name
     return context.prisma.updateCategory({
       where: { id },
       data: { name },
@@ -75,7 +70,7 @@ const Mutation = {
     if (!userId) {
       return null
     }
-    //delete category with given id
+
     return context.prisma.deleteCategory({ id })
   },
   createSession: async (parent, { length, categoryId }, context) => {
@@ -85,9 +80,7 @@ const Mutation = {
     if (!userId) {
       return null
     }
-    // create a session with given length
-    // connect to gategory of given categoryId
-    // connect to user of given userId
+
     return context.prisma.createSession({
       length,
       category: { connect: { id: categoryId } },
@@ -99,18 +92,15 @@ const Mutation = {
     { rating, description, taskForTomorrow },
     context
   ) => {
-    // get userId
     const userId = getUserId(context)
 
     if (!userId) {
       return null
     }
     return context.prisma.createDay({
-      // create a day with given inputs; rating, description, taskForTomorrow
       rating,
       description,
       taskForTomorrow,
-      //contect to a user
       user: { connect: { id: userId } },
     })
   },
