@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
 import gql from "graphql-tag"
 import { Query } from "react-apollo"
+import { Grommet } from "grommet"
 
 import Nav from "../components/Nav"
 import Signup from "../components/Signup"
@@ -22,27 +23,29 @@ const Auth = () => (
 )
 
 const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
+  <Grommet plain>
+    <StaticQuery
+      query={graphql`
+        query SiteTitleQuery {
+          site {
+            siteMetadata {
+              title
+            }
           }
         }
-      }
-    `}
-    render={data => (
-      <>
-        <Nav siteTitle={data.site.siteMetadata.title} />
-        <Query query={IS_LOGGED_IN}>
-          {({ data }) => {
-            return data.isLoggedIn ? <main>{children}</main> : <Auth />
-          }}
-        </Query>
-      </>
-    )}
-  />
+      `}
+      render={data => (
+        <>
+          <Nav siteTitle={data.site.siteMetadata.title} />
+          <Query query={IS_LOGGED_IN}>
+            {({ data }) => {
+              return data.isLoggedIn ? <main>{children}</main> : <Auth />
+            }}
+          </Query>
+        </>
+      )}
+    />
+  </Grommet>
 )
 
 Layout.propTypes = {

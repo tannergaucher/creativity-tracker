@@ -2,6 +2,7 @@ import React from "react"
 import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
 import { client } from "../apollo/client"
+import { Button } from "grommet"
 
 const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {
@@ -20,7 +21,8 @@ const Signout = ({ name }) => {
         client.writeData({ data: { isLoggedIn: false } })
       }}
     >
-      {signout => <button onClick={signout}>Sign out {name}</button>}
+      {/* {signout => <button onClick={signout}>Sign out {name}</button>} */}
+      {signout => <Button label="Sign out" onClick={signout} />}
     </Mutation>
   )
 }
