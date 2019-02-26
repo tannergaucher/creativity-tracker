@@ -6,12 +6,31 @@ type SuccessMessage {
 
 type Query {
   me: User!
+  today: Day
+  allTime: [Day!]!
 }
 
 type Mutation {
   signup(email: String!, password: String!, name: String): AuthPayload!
   signin(email: String!, password: String!): AuthPayload!
   signout: SuccessMessage
+  createCategory(name: String!): Category
+  updateCategory(id: ID!): Category
+  deleteCategory(id: ID!): Category
+  # createSession(length: Int, category: Category!): Session!
+  createDay(
+    rating: Int
+    description: String!
+    taskForTomorrow: String
+    date: DateTime!
+  ): Day
+  updateDay(
+    id: ID!
+    rating: Int
+    description: String
+    taskForTomorrow: String
+    date: DateTime!
+  ): Day
 }
 
 type AuthPayload {
@@ -24,4 +43,30 @@ type User {
   email: String!
   password: String!
   name: String!
+  categories: [Category!]!
+  days: [Day!]!
+}
+
+type Day {
+  id: ID!
+  date: DateTime!
+  user: User!
+  sessions: [Session!]!
+  rating: Int
+  description: String
+  taskForTomorrow: String
+}
+
+type Category {
+  id: ID!
+  name: String!
+  user: User!
+}
+
+type Session {
+  id: ID!
+  category: Category!
+  length: Int!
+  user: User!
+  createdAt: DateTime!
 }

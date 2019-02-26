@@ -3,19 +3,19 @@ type User {
   email: String! @unique
   password: String!
   name: String!
-  categories: [Category!]! #relation
+  categories: [Category!]! #relation User to Category
   days: [Day!]!
 }
 
 type Category {
   id: ID! @unique
   name: String!
-  user: User! #relation
+  user: User! #relation Category to User
 }
 
 type Session {
   id: ID! @unique
-  category: Category! #relation
+  category: Category! #relation Session to Category
   length: Int!
   user: User!
   createdAt: DateTime!
@@ -25,7 +25,7 @@ type Day {
   id: ID! @unique
   date: DateTime!
   user: User!
-  sessions: [Session!]!
+  sessions: [Session!]! #relation Day to Session
   rating: Int
   description: String
   taskForTomorrow: String
