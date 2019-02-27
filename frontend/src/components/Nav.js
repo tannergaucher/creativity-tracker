@@ -1,5 +1,3 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
 
 import { Query } from "react-apollo"
@@ -10,7 +8,7 @@ import Sidebar from "../components/Sidebar"
 
 const isSidebarOpen = false
 
-const Nav = ({ siteTitle }) => (
+const Nav = () => (
   <header>
     {isSidebarOpen && <Sidebar />}
     <Query query={IS_LOGGED_IN}>
@@ -18,13 +16,5 @@ const Nav = ({ siteTitle }) => (
     </Query>
   </header>
 )
-
-Nav.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Nav.defaultProps = {
-  siteTitle: ``,
-}
 
 export default Nav

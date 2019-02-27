@@ -12,7 +12,7 @@ const SIGN_OUT_MUTATION = gql`
   }
 `
 
-const Signout = ({ name }) => {
+const Signout = () => {
   return (
     <Mutation
       mutation={SIGN_OUT_MUTATION}
@@ -21,7 +21,6 @@ const Signout = ({ name }) => {
         client.writeData({ data: { isLoggedIn: false } })
       }}
     >
-      {/* {signout => <button onClick={signout}>Sign out {name}</button>} */}
       {signout => <Button label="Sign out" onClick={signout} />}
     </Mutation>
   )
