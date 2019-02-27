@@ -14,7 +14,7 @@ const link = createHttpLink({
   uri: "http://localhost:4000/",
   credentials: "include",
   headers: {
-    authorization: getToken(),
+    credentials: "include",
   },
 })
 
@@ -26,11 +26,4 @@ export const client = new ApolloClient({
   cache,
   resolvers,
   typeDefs,
-})
-
-// this is the 'default' client state
-cache.writeData({
-  data: {
-    isLoggedIn: !!getToken(),
-  },
 })

@@ -1,11 +1,11 @@
 import React from "react"
 import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
-import Link from "gatsby-link"
 import { Box, TextInput, Button, FormField } from "grommet"
 
 import Error from "./Error"
-import { client } from "../apollo/client"
+
+import { CURRENT_USER_QUERY } from "../components/User"
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -38,10 +38,7 @@ class Signin extends React.Component {
       <Mutation
         mutation={SIGNIN_MUTATION}
         variables={this.state}
-        onCompleted={({ signin }) => {
-          localStorage.setItem("token", signin.token)
-          client.writeData({ data: { isLoggedIn: true } })
-        }}
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
         {(signin, { loading, error }) => {
           return (

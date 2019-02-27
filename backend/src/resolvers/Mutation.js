@@ -33,12 +33,19 @@ const Mutation = {
 
     const token = sign({ userId: user.id }, process.env.APP_SECRET)
 
+    context.response.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365,
+    })
+
     return {
-      token,
       user,
+      token,
     }
   },
   signout: (parent, { id }, context) => {
+    context.response.clearCookie('token')
+
     return { message: 'Goodbye' }
   },
   createCategory: async (parent, { name }, context) => {

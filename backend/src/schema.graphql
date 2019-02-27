@@ -5,7 +5,7 @@ type SuccessMessage {
 }
 
 type Query {
-  me: User!
+  me: User
   today: Day
   allTime: [Day!]!
 }

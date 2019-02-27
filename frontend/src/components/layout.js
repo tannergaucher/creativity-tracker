@@ -1,16 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
-import gql from "graphql-tag"
-import { Query } from "react-apollo"
 
 import { createGlobalStyle, ThemeProvider } from "styled-components"
 
 import { Grommet } from "grommet"
 
 import Nav from "../components/Nav"
-import Signup from "../components/Signup"
-import Signin from "../components/Signin"
 
 const theme = {
   spacing: "1em",
@@ -33,19 +29,6 @@ const GlobalStyles = createGlobalStyle`
   }
 `
 
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`
-
-const Auth = () => (
-  <>
-    <Signin />
-    <Signup />
-  </>
-)
-
 const Layout = ({ children }) => (
   <ThemeProvider theme={theme}>
     <>
@@ -64,11 +47,7 @@ const Layout = ({ children }) => (
           render={data => (
             <>
               <Nav siteTitle={data.site.siteMetadata.title} />
-              <Query query={IS_LOGGED_IN}>
-                {({ data }) => {
-                  return data.isLoggedIn ? <main>{children}</main> : <Auth />
-                }}
-              </Query>
+              <main>{children}</main>
             </>
           )}
         />
@@ -82,5 +61,3 @@ Layout.propTypes = {
 }
 
 export default Layout
-
-export { IS_LOGGED_IN }

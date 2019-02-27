@@ -1,7 +1,6 @@
 import React from "react"
 import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
-import { client } from "../apollo/client"
 
 import { Box, TextInput, FormField, Button } from "grommet"
 
@@ -35,14 +34,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Mutation
-        mutation={SIGNUP_MUTATION}
-        variables={this.state}
-        onCompleted={({ signup }) => {
-          localStorage.setItem("token", signup.token)
-          client.writeData({ data: { isLoggedIn: true } })
-        }}
-      >
+      <Mutation mutation={SIGNUP_MUTATION} variables={this.state}>
         {(signup, { loading, error }) => (
           <Box pad="small">
             <form

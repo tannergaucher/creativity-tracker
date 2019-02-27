@@ -1,8 +1,9 @@
 import React from "react"
 import { Mutation } from "react-apollo"
 import gql from "graphql-tag"
-import { client } from "../apollo/client"
+
 import { Button } from "grommet"
+import { CURRENT_USER_QUERY } from "../components/User"
 
 const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {
@@ -16,10 +17,7 @@ const Signout = () => {
   return (
     <Mutation
       mutation={SIGN_OUT_MUTATION}
-      onCompleted={({ signout }) => {
-        localStorage.clear()
-        client.writeData({ data: { isLoggedIn: false } })
-      }}
+      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
     >
       {signout => <Button label="Sign out" onClick={signout} />}
     </Mutation>
