@@ -43,17 +43,13 @@ class Signin extends React.Component {
           return (
             <form
               onSubmit={async e => {
-                console.log('sign in')
                 e.preventDefault()
-                const res = await signin()
-                console.log('RES', res)
+                signin()
               }}
             >
               <fieldset disabled={loading} aria-busy={loading}>
                 <h1>Sign In</h1>
-
                 <Error error={error} />
-
                 <label htmlFor="email">
                   email
                   <input
@@ -64,7 +60,6 @@ class Signin extends React.Component {
                     onChange={this.handleChange}
                   />
                 </label>
-
                 <label htmlFor="password">
                   password
                   <input
@@ -75,7 +70,6 @@ class Signin extends React.Component {
                     onChange={this.handleChange}
                   />
                 </label>
-
                 <button type="submit">button</button>
               </fieldset>
             </form>

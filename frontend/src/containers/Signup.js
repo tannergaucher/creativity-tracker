@@ -37,7 +37,7 @@ class Signup extends React.Component {
           <form
             onSubmit={async e => {
               e.preventDefault()
-              const res = await signup()
+              signup()
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>

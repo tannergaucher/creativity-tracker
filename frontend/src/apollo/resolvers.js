@@ -1,9 +1,5 @@
-import gql from 'graphql-tag'
+// import gql from 'graphql-tag'
 
-export const typeDefs = gql`
-  extend type Query {
-    isLoggedIn: Boolean!
-  }
-`
+// export const typeDefs = gql``
 
-export const resolvers = {}
+// export const resolvers = {}
