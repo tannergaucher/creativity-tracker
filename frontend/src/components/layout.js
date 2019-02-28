@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { createGlobalStyle, ThemeProvider } from "styled-components"
-import { Grommet } from "grommet"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { Grommet } from 'grommet'
 
-import Bar from "../components/Bar"
+import Bar from '../components/Bar'
 
 const theme = {
-  spacing: "1em",
+  spacing: '1em',
 }
 
 const GlobalStyles = createGlobalStyle`

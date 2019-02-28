@@ -1,18 +1,24 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import Layout from "../components/layout"
+import Layout from '../components/layout'
+import Container from '../components/styles/Container'
+import Signout from '../components/Signout'
 
-const Styled = styled.div``
+import User from '../components/User'
+
+// query me
+
+// if me, return signout
+
+// if !me, return signin
 
 const me = () => {
   return (
     <Layout>
-      <Styled>
-        me
-        {/*  */}
-        {/*  */}
-      </Styled>
+      <Container>
+        <Signout />
+      </Container>
     </Layout>
   )
 }

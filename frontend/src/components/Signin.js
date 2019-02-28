@@ -1,11 +1,11 @@
-import React from "react"
-import { Mutation } from "react-apollo"
-import gql from "graphql-tag"
-import { Box, TextInput, Button, FormField } from "grommet"
+import React from 'react'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
+import { Box, TextInput, Button, FormField } from 'grommet'
 
-import Error from "./Error"
+import Error from './Error'
 
-import { CURRENT_USER_QUERY } from "../components/User"
+import { CURRENT_USER_QUERY } from '../components/User'
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -25,8 +25,8 @@ const SIGNIN_MUTATION = gql`
 
 class Signin extends React.Component {
   state = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   }
 
   handleChange = e => {
@@ -45,10 +45,10 @@ class Signin extends React.Component {
             <Box pad="small">
               <form
                 onSubmit={async e => {
-                  console.log("sign in")
+                  console.log('sign in')
                   e.preventDefault()
                   const res = await signin()
-                  console.log("RES", res)
+                  console.log('RES', res)
                 }}
               >
                 <h1>Sign In</h1>

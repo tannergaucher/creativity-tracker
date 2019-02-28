@@ -1,8 +1,8 @@
-import React from "react"
-import { Mutation } from "react-apollo"
-import gql from "graphql-tag"
+import React from 'react'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import { Box, TextInput, FormField, Button } from "grommet"
+import { Box, TextInput, FormField, Button } from 'grommet'
 
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
@@ -23,9 +23,9 @@ const SIGNUP_MUTATION = gql`
 
 class Signup extends React.Component {
   state = {
-    email: "",
-    password: "",
-    name: "",
+    email: '',
+    password: '',
+    name: '',
   }
 
   handleChange = e => {

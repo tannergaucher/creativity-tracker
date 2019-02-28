@@ -1,11 +1,14 @@
-import React from "react"
-import Layout from "../components/layout"
+import React from 'react'
+import Layout from '../components/layout'
 
-import Categories from "../components/Categories"
+import Categories from '../components/Categories'
+import Container from '../components/styles/Container'
 
 const IndexPage = () => (
   <Layout>
-    <Categories />
+    <Container>
+      <Categories />
+    </Container>
   </Layout>
 )
 

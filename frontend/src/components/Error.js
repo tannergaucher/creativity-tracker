@@ -1,5 +1,5 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const DisplayError = ({ error }) => {
   if (!error || !error.message) return null
@@ -10,13 +10,13 @@ const DisplayError = ({ error }) => {
   ) {
     return error.networkError.result.errors.map((error, i) => (
       <div key={i}>
-        <p>{error.message.replace("GraphQL error: ", "")}</p>
+        <p>{error.message.replace('GraphQL error: ', '')}</p>
       </div>
     ))
   }
   return (
     <>
-      <p>{error.message.replace("GraphQL error: ", "")}</p>
+      <p>{error.message.replace('GraphQL error: ', '')}</p>
     </>
   )
 }

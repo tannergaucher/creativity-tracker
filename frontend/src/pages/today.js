@@ -1,18 +1,16 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
 
-import Layout from "../components/layout"
-
-const Styled = styled.div``
+import Layout from '../components/layout'
+import Container from '../components/styles/Container'
 
 const today = () => {
   return (
     <Layout>
-      <Styled>
+      <Container>
         today
         {/*  */}
         {/*  */}
-      </Styled>
+      </Container>
     </Layout>
   )
 }
