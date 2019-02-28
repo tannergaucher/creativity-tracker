@@ -2,8 +2,6 @@ import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Box, TextInput, FormField, Button } from 'grommet'
-
 const SIGNUP_MUTATION = gql`
   mutation SIGNUP_MUTATION(
     $email: String!
@@ -36,44 +34,47 @@ class Signup extends React.Component {
     return (
       <Mutation mutation={SIGNUP_MUTATION} variables={this.state}>
         {(signup, { loading, error }) => (
-          <Box pad="small">
-            <form
-              onSubmit={async e => {
-                e.preventDefault()
-                const res = await signup()
-              }}
-            >
+          <form
+            onSubmit={async e => {
+              e.preventDefault()
+              const res = await signup()
+            }}
+          >
+            <fieldset disabled={loading} aria-busy={loading}>
               <h1>Sign up</h1>
-
-              <FormField label="Email">
-                <TextInput
+              <Error error={error} />
+              <label htmlFor="email">
+                email
+                <input
                   name="email"
                   type="email"
                   value={this.state.email}
                   onChange={this.handleChange}
                 />
-              </FormField>
+              </label>
 
-              <FormField label="password">
-                <TextInput
+              <label htmlFor="password">
+                password
+                <input
                   name="password"
                   type="password"
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
-              </FormField>
+              </label>
 
-              <FormField label="Name">
-                <TextInput
+              <label htmlFor="name">
+                name
+                <input
                   name="name"
                   type="name"
                   value={this.state.name}
                   onChange={this.handleChange}
                 />
-              </FormField>
-              <Button label="Sign up" disabled={loading} />
-            </form>
-          </Box>
+              </label>
+              <button>Sign up</button>
+            </fieldset>
+          </form>
         )}
       </Mutation>
     )
