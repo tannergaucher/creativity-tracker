@@ -13,10 +13,6 @@ const SIGNIN_MUTATION = gql`
       user {
         id
         name
-        email
-        categories {
-          name
-        }
       }
     }
   }
@@ -70,7 +66,9 @@ class Signin extends React.Component {
                     onChange={this.handleChange}
                   />
                 </label>
-                <button type="submit">button</button>
+                <button type="submit" disabled={loading}>
+                  button
+                </button>
               </fieldset>
             </form>
           )

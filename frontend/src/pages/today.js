@@ -7,9 +7,7 @@ const today = () => {
   return (
     <Layout>
       <Container>
-        today
-        {/*  */}
-        {/*  */}
+        <h2>Today</h2>
       </Container>
     </Layout>
   )

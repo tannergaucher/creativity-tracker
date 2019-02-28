@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import { Grommet } from 'grommet'
 
 import Bar from '../components/Bar'
 
 const theme = {
   spacing: '1em',
+  radius: '4px',
 }
 
 const GlobalStyles = createGlobalStyle`
@@ -29,10 +29,8 @@ const Layout = ({ children }) => (
   <ThemeProvider theme={theme}>
     <>
       <GlobalStyles />
-      <Grommet>
-        <main>{children}</main>
-        <Bar />
-      </Grommet>
+      <main>{children}</main>
+      <Bar />
     </>
   </ThemeProvider>
 )

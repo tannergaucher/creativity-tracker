@@ -81,7 +81,6 @@ const Mutation = {
     return context.prisma.deleteCategory({ id })
   },
   createSession: async (parent, { length, categoryId }, context) => {
-    //get userId
     const userId = getUserId(context)
 
     if (!userId) {

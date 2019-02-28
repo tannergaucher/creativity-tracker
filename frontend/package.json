@@ -3,7 +3,7 @@
   "private": true,
   "description": "Track creative hours. Rate the day. Reflect on the visualized data.",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "tannermichaelgaucher@gmail.com",
   "dependencies": {
     "apollo-boost": "^0.1.28",
     "babel-plugin-styled-components": "^1.10.0",
@@ -16,7 +16,6 @@
     "gatsby-plugin-styled-components": "^3.0.6",
     "gatsby-source-filesystem": "^2.0.23",
     "gatsby-transformer-sharp": "^2.1.14",
-    "grommet": "^2.5.0",
     "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
@@ -29,7 +28,11 @@
     "prettier": "^1.16.4"
   },
   "keywords": [
-    "gatsby"
+    "gatsby",
+    "apollo",
+    "graphql",
+    "productivity",
+    "progressive web app"
   ],
   "license": "MIT",
   "scripts": {

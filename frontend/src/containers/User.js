@@ -6,8 +6,17 @@ import PropTypes from 'prop-types'
 const CURRENT_USER_QUERY = gql`
   query {
     me {
-      name
       id
+      name
+      categories {
+        id
+        name
+        sessions {
+          id
+          length
+          createdAt
+        }
+      }
     }
   }
 `
