@@ -1,8 +1,8 @@
 import React from 'react'
 
 import Layout from '../components/layout'
-import Signin from '../components/Signin'
-import Signup from '../components/Signup'
+import Signin from '../containers/Signin'
+import Signup from '../containers/Signin'
 
 const signin = () => {
   return (

@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import { Button } from 'grommet'
-import { CURRENT_USER_QUERY } from '../components/User'
+import { CURRENT_USER_QUERY } from './User'
 
 const SIGN_OUT_MUTATION = gql`
   mutation SIGN_OUT_MUTATION {

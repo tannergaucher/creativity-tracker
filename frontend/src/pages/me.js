@@ -1,23 +1,29 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import Layout from '../components/layout'
+import Signin from '../containers/Signin'
+import Signout from '../containers/Signout'
+import User from '../containers/User'
 import Container from '../components/styles/Container'
-import Signout from '../components/Signout'
-
-import User from '../components/User'
-
-// query me
-
-// if me, return signout
-
-// if !me, return signin
+import Spinner from '../components/styles/Spinner'
 
 const me = () => {
   return (
     <Layout>
       <Container>
-        <Signout />
+        <User>
+          {({ data, loading, error }) => {
+            if (loading) return <Spinner />
+            if (error) return <p>{error.message}</p>
+            if (!data.me) return <Signin />
+            return (
+              <>
+                <h2>Hey, {data.me.name}</h2>
+                <Signout />
+              </>
+            )
+          }}
+        </User>
       </Container>
     </Layout>
   )

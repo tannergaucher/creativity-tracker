@@ -3,9 +3,9 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { Box, TextInput, Button, FormField } from 'grommet'
 
-import Error from './Error'
+import Error from '../components/Error'
 
-import { CURRENT_USER_QUERY } from '../components/User'
+import { CURRENT_USER_QUERY } from './User'
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
