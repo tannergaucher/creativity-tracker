@@ -1,7 +1,7 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "creativity-tracker",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Track creative hours. Rate the day. Reflect on the visualized data.",
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {

@@ -1,9 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { StaticQuery, graphql } from "gatsby"
-
 import { createGlobalStyle, ThemeProvider } from "styled-components"
-
 import { Grommet } from "grommet"
 
 import Bar from "../components/Bar"
