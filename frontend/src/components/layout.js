@@ -6,7 +6,7 @@ import { createGlobalStyle, ThemeProvider } from "styled-components"
 
 import { Grommet } from "grommet"
 
-import Nav from "../components/Nav"
+import Bar from "../components/Bar"
 
 const theme = {
   spacing: "1em",
@@ -18,14 +18,13 @@ const GlobalStyles = createGlobalStyle`
 	box-sizing: border-box;
   }
   html {
-    min-height: 100vh;
     margin: 0;
   }
   body {
     margin: 0;
-    min-height: 100vh;
     font-family: 'Karla', sans-serif;
     font-size: 18px;
+    overscroll-behavior: none;
   }
 `
 
@@ -34,23 +33,8 @@ const Layout = ({ children }) => (
     <>
       <GlobalStyles />
       <Grommet>
-        <StaticQuery
-          query={graphql`
-            query SiteTitleQuery {
-              site {
-                siteMetadata {
-                  title
-                }
-              }
-            }
-          `}
-          render={data => (
-            <>
-              <Nav siteTitle={data.site.siteMetadata.title} />
-              <main>{children}</main>
-            </>
-          )}
-        />
+        <main>{children}</main>
+        <Bar />
       </Grommet>
     </>
   </ThemeProvider>
